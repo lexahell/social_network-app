@@ -1,0 +1,17 @@
+.post {
+    background-color:  rgb(38 38 38);
+    padding: 20px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+.postTitle {
+    display: flex;
+    align-items: center;
+}
+.authorNameContainer {
+    margin-left: 1rem;
+}
+.imgContainer img {
+    border-radius: 50%;
+    width: 50px;
+}

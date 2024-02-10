@@ -1,8 +1,10 @@
-import HomePage from './components/HomePage/HomePage';
 import './App.css';
+import AppRouter from "./router/AppRouter.tsx";
 
 function App() {
-  return <HomePage />;
+  return (
+      <AppRouter/>
+  );
 }
 
 export default App;
