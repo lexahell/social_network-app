@@ -3,8 +3,16 @@ import styles from './Header.module.css';
 import logo from "../../imges/Illustration-of-logo-design-template-on-transparent-background-PNG.png";
 import {Link} from "react-router-dom";
 import {RouteNames} from "../../router/routes.tsx";
+import {useDispatch} from "react-redux";
+import {setModalContent, setModalVisibility} from "../../store/slices/modalSlice.ts";
+import Login from "../Login/Login.tsx";
 
 const Header : React.FC = () => {
+    const dispatch = useDispatch()
+    const handleLoginBtnClick = () : void  => {
+        dispatch(setModalVisibility(true))
+        dispatch(setModalContent(<Login/>))
+    }
     return (
         <header className={styles.header}>
             <div>
@@ -21,7 +29,7 @@ const Header : React.FC = () => {
                     <Link to={RouteNames.HOME}><h3>Friends</h3></Link>
                 </nav>
                 <div className={styles.buttonSignContainer}>
-                    <button className={styles.buttonSign}>Sign in</button>
+                    <button className={styles.buttonSign} onClick={handleLoginBtnClick}>Sign in</button>
                 </div>
             </div>
         </header>

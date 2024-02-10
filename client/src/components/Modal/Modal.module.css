@@ -1,0 +1,20 @@
+.modal {
+    position: fixed;
+    border-radius: 10px;
+    top: 50%;
+    left: 50%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transform: translate(-50%, -100vh);
+}
+.modal.visible {
+    transform: translate(-50%, -50%);
+    transition: all .7s ease;
+}
+.modalBackground {
+    inset: 0;
+    background-color: rgba(23, 23, 23, .9);
+    position: fixed;
+    backdrop-filter: blur(4px);
+    transition: all .7s ease;
+    z-index: 1000;
+}
