@@ -1,0 +1,38 @@
+.profileHeader {
+  margin-top: 20px;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+.profileInfo {
+  display: flex;
+  align-items: center;
+}
+.imgContainer img {
+  border-radius: 50%;
+  width: 80px;
+}
+.usernameContainer {
+  margin-left: 1rem;
+}
+.userName {
+  font-size: 40px;
+}
+.btnChangeAvatar {
+  cursor: pointer;
+  width: 100px;
+  height: 40px;
+  border: none;
+  color: white;
+  font-weight: 20px;
+  font-size: bold;
+  border-radius: 5px;
+  background-color: var(--color-button);
+}
+.btnChangeAvatar:hover {
+  opacity: 0.9;
+}
+.btnChangeAvatar:active {
+  opacity: 0.7;
+}
