@@ -1,0 +1,119 @@
+.registrationContainer {
+    background-color: rgb(38, 38, 38);
+    min-width: 350px;
+    height: min-content;
+    border-radius: 0.875rem;
+    border: rgb(64 64 64) solid 1px;
+}
+.exitContainer {
+    display: flex;
+    padding: .55rem;
+    align-items: center;
+    justify-content: flex-end;
+}
+.exitContainer > * {
+    cursor: pointer;
+}
+.title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.title > span {
+    font-size: 2rem;
+}
+form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 .7rem;
+}
+form > h2 {
+    font-size: 2rem;
+    margin: 0;
+}
+.inputGroup {
+    position: relative;
+    margin: 1rem 0;
+    width: 100%;
+    height: 2.5rem;
+    border: none;
+}
+.inputGroup > label {
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    font-size: 1.1rem;
+    color: #fff;
+    padding: 0 .5rem;
+    pointer-events: none;
+    transition: .5s;
+    background: rgb(38, 38, 38);
+}
+.defaultInput {
+    width: 100%;
+    height: 100%;
+    padding: .8rem;
+    color: #fff;
+    font-size: 1rem;
+    background: transparent;
+    border: 1px solid rgb(64 64 64);
+    border-radius: .25rem;
+    outline: none;
+    transition: .5s;
+}
+.defaultInput:focus ~ label,
+.activeInput ~ label,
+.errorInput ~ label{
+    top: 0;
+    font-size: .8rem;
+}
+.errorInput {
+    border-color: rgb(220 38 38) !important;
+}
+.errorInput ~ label {
+    color: rgb(220 38 38) !important;
+}
+
+.defaultInput:focus:not(.errorEmailInput):not(.errorPasswordInput):not(.errorUserNameInput) {
+    border-color: var(--color-button)
+}
+
+.defaultInput:focus:not(.errorEmailInput):not(.errorPasswordInput):not(.errorUserNameInput) ~ label {
+    color: var(--color-button);
+}
+.registrationError {
+    height: 3rem;
+    width: 100%;
+    margin: 1rem 0;
+    padding: .5rem .2rem;
+    border-radius: 5px;
+    background-color: rgb(220 38 38);
+    border: none;
+    color: #fff;
+    font-size: 1.2rem;
+}
+form > button {
+    width: 100%;
+    height: 3rem;
+    margin: 1rem 0;
+    padding: .5rem 2rem;
+    border-radius: 5px;
+    background: rgb(64 64 64);
+    border: none;
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+.accountInfo {
+    color: rgb(115 115 115);
+    font-size: .9rem;
+    margin-bottom: 1rem;
+}
+.accountInfo > span {
+    color: var(--color-button);
+    cursor: pointer;
+}
+
