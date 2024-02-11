@@ -1,7 +1,7 @@
 .newPostContainer {
   margin-top: 20px;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
 }
 .btnAddPost {
@@ -37,6 +37,7 @@
   resize: none;
   overflow-y: scroll;
   height: 150px;
+  color: #fff;
 }
 .newPostInput:focus {
   border-color: var(--color-button);

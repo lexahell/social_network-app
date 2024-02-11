@@ -4,7 +4,7 @@ import Posts from '../components/Posts/Posts.tsx';
 import PostsItem from '../components/PostItem/PostsItem.tsx';
 import ProfileHeader from '../components/ProfileHeader/ProfileHeader.tsx';
 import NewPost from '../components/NewPost/NewPost.tsx';
-import styles from './Pages.module.css';
+import styles from '../pagesStyles/ProfilePage.module.css';
 
 //потом когда кириллио научится отправлять json то просто будем кидать как props в Posts
 const ProfilePage: React.FC = () => {

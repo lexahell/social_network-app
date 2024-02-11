@@ -55,10 +55,10 @@ const Registration: React.FC = () => {
                             <input type="text" autoComplete="off" {...field} className={`${styles.defaultInput} ${field.value ? styles.activeInput : ''} ${errors.email ? styles.errorInput : ''}`}/>
                         )}
                         rules={{
-                            required: "Данное поле обязательно",
+                            required: "Email is required",
                             pattern: {
                                 value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                                message: "Некорректный email",
+                                message: "Incorrect email",
                             },
                         }}
                     />
@@ -72,7 +72,7 @@ const Registration: React.FC = () => {
                             <input type="text" autoComplete="off" {...field} className={`${styles.defaultInput} ${field.value ? styles.activeInput : ''} ${errors.userName ? styles.errorInput: ''}`}/>
                         )}
                         rules={{
-                            required: "Данное поле обязательно",
+                            required: "Username is required",
                         }}
                     />
                     <label htmlFor="">{errors.userName ? errors.userName.message : "Username"}</label>
@@ -85,14 +85,14 @@ const Registration: React.FC = () => {
                             <input type="password" autoComplete="off" {...field} className={`${styles.defaultInput} ${field.value ? styles.activeInput : ''} ${errors.password ? styles.errorInput : ''}`}/>
                         )}
                         rules={{
-                            required: "Данное поле обязательно",
+                            required: "Password is required",
                             minLength: {
-                                value: 6,
-                                message: "Пароль должен содержать минимум 6 символов",
+                                value: 8,
+                                message: "The password must contain at least 8 characters",
                             },
                             maxLength: {
-                                value: 20,
-                                message: "Пароль не должен превышать 20 символов",
+                                value: 15,
+                                message: "The password must not exceed 15 characters",
                             },
                         }}
                     />
