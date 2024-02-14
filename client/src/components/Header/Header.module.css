@@ -4,7 +4,11 @@
 }
 h3 {
     font-size: 24px;
+    transition: .3s ease-out;
     cursor: pointer;
+}
+h3:hover {
+    color: var(--color-button);
 }
 .logoImg img {
     width: 80px;

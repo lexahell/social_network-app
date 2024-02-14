@@ -1,0 +1,8 @@
+.chatsListItem {
+    display: flex;
+    align-items: flex-start;
+    padding: .5rem;
+    background-color: rgba(23, 23, 23, .8);
+    height: 5rem;
+    border-radius: .675rem;
+}

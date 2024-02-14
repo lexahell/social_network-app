@@ -27,7 +27,7 @@ const Header: React.FC = () => {
           <Link to={RouteNames.HOME}>
             <h3>News</h3>
           </Link>
-          <Link to={RouteNames.HOME}>
+          <Link to={RouteNames.DIALOGS}>
             <h3>Dialogs</h3>
           </Link>
           <Link to={RouteNames.HOME}>
