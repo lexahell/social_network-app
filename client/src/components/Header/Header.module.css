@@ -1,54 +1,55 @@
 .header div {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 h3 {
-    font-size: 24px;
-    transition: .3s ease-out;
-    cursor: pointer;
+  font-size: 24px;
+  transition: 0.3s ease-out;
+  cursor: pointer;
 }
 h3:hover {
-    color: var(--color-button);
+  color: var(--color-button);
 }
 .logoImg img {
-    width: 80px;
+  width: 80px;
 }
 
 .logoText {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 nav {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
 }
 nav > * {
-    color: #fff;
-    text-decoration: none;
-    cursor: pointer;
+  color: #fff;
+  text-decoration: none;
+  cursor: pointer;
 }
 .buttonSignContainer {
-    width: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .buttonSign {
-    cursor: pointer;
-    width: 60px;
-    height: 40px;
-    border: none;
-    color: white;
-    font-weight: 20px;
-    font-size: bold;
-    border-radius: 5px;
-    background-color: var(--color-button);
+  user-select: none;
+  cursor: pointer;
+  width: 60px;
+  height: 40px;
+  border: none;
+  color: white;
+  font-weight: 20px;
+  font-size: bold;
+  border-radius: 5px;
+  background-color: var(--color-button);
 }
 .buttonSign:hover {
-    opacity: 0.9;
+  opacity: 0.9;
 }
 .buttonSign:active {
-    opacity: 0.7;
+  opacity: 0.7;
 }

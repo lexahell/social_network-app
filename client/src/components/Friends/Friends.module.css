@@ -1,0 +1,11 @@
+.friends {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+  width: 50%;
+  margin: 0 auto;
+  flex-direction: column;
+  background-color: rgb(38 38 38);
+  border-radius: 10px;
+  padding: 10px;
+}

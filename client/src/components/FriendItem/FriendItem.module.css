@@ -1,0 +1,70 @@
+.avatarContainer {
+  position: relative;
+}
+
+.avatarContainer img {
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+}
+.friendItemContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.friendTextContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+}
+.friendName {
+  color: white;
+  font-size: 20px;
+}
+
+.followBtnContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.writeMessageLinkContainer a {
+  font-size: 14px;
+  color: var(--color-button);
+  text-decoration: none;
+  user-select: none;
+}
+
+.followBtn {
+  user-select: none;
+  cursor: pointer;
+  width: 60px;
+  height: 40px;
+  border: none;
+  color: white;
+  font-weight: 20px;
+  font-size: bold;
+  border-radius: 5px;
+  background-color: var(--color-button);
+}
+.followBtn:hover {
+  opacity: 0.9;
+}
+.followBtn:active {
+  opacity: 0.7;
+}
+.friendItemInfo {
+  display: flex;
+  gap: 20px;
+}
+.onlineStatus {
+  position: absolute;
+  background-color: lime;
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  border: 3px solid rgb(38, 38, 38);
+  bottom: 8px;
+  right: 8px;
+}
