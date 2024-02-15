@@ -1,0 +1,18 @@
+.pageTitle {
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.searchContainer {
+  width: 50%;
+  margin: 15px auto;
+}
+.searchContainer input {
+  background-color: rgb(38 38 38);
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  height: 40px;
+}

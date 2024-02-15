@@ -1,22 +1,24 @@
 import React from 'react';
 import Layout from '../components/Layout/Layout.tsx';
-import styles from '../pagesStyles/ProfilePage.module.css';
+import styles from '../pagesStyles/FriendsPage.module.css';
 import FriendItem from '../components/FriendItem/FriendItem.tsx';
+import Friends from '../components/Friends/Friends.tsx';
 
 const FriendsPage: React.FC = () => {
   return (
     <Layout>
       <h1 className={styles.pageTitle}>Friends</h1>
-      <div>
+      <div className={styles.searchContainer}>
         <input type='search' name='' id='' placeholder='Search users' />
       </div>
-      <div>
+      <Friends>
         <FriendItem />
         <FriendItem />
         <FriendItem />
         <FriendItem />
         <FriendItem />
-      </div>
+      </Friends>
+      {/* <h2 className={styles.}>All search</h2> */}
     </Layout>
   );
 };

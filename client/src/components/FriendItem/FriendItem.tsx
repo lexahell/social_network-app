@@ -1,10 +1,17 @@
 import React from 'react';
 import styles from './FriendItem.module.css';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { RouteNames } from '../../router/routes.tsx';
 
 const FriendItem: React.FC = () => {
+  const [subscriptionStatus, setSubscriptionStatus] = useState(true);
+  const changeSubscriptionStatus = () => {
+    setSubscriptionStatus(!subscriptionStatus);
+  };
   return (
-    <div>
-      <div>
+    <div className={styles.friendItemContainer}>
+      <div className={styles.friendItemInfo}>
         <div className={styles.avatarContainer}>
           <img
             src={
@@ -12,16 +19,20 @@ const FriendItem: React.FC = () => {
             }
             alt='avatar'
           />
+          <div className={styles.onlineStatus}></div>
         </div>
-        <div>
-          <div>Travis Skot</div>
-          <div>
-            <div>Write message</div>
+        <div className={styles.friendTextContainer}>
+          <div className={styles.friendName}>Travis Skot</div>
+          <div className={styles.writeMessageLinkContainer}>
+            {/* пока ведет на главную, потом будет вести к переписке */}
+            <Link to={RouteNames.HOME}>Write message</Link>
           </div>
         </div>
       </div>
-      <div>
-        <button>:</button>
+      <div className={styles.followBtnContainer}>
+        <button onClick={changeSubscriptionStatus} className={styles.followBtn}>
+          {subscriptionStatus ? 'Unfollow' : 'Follow'}
+        </button>
       </div>
     </div>
   );
