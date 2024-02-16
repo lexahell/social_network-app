@@ -29,9 +29,12 @@ const FriendItem: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className={styles.followBtnContainer}>
-        <button onClick={changeSubscriptionStatus} className={styles.followBtn}>
-          {subscriptionStatus ? 'Unfollow' : 'Follow'}
+      <div className={styles.SubscribeBtnContainer}>
+        <button
+          onClick={changeSubscriptionStatus}
+          className={styles.SubscribeBtn}
+        >
+          {subscriptionStatus ? 'Unsubscribe' : 'Subscribe'}
         </button>
       </div>
     </div>

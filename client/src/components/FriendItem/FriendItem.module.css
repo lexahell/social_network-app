@@ -1,16 +1,19 @@
+.friendItemContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  background-color: rgb(38 38 38);
+  border-radius: 10px;
+  padding: 20px;
+}
 .avatarContainer {
   position: relative;
 }
 
 .avatarContainer img {
   border-radius: 50%;
-  width: 80px;
-  height: 80px;
-}
-.friendItemContainer {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
+  width: 60px;
+  height: 60px;
 }
 
 .friendTextContainer {
@@ -24,34 +27,33 @@
   font-size: 20px;
 }
 
-.followBtnContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 .writeMessageLinkContainer a {
   font-size: 14px;
   color: var(--color-button);
   text-decoration: none;
   user-select: none;
 }
-
-.followBtn {
+.SubscribeBtnContainer {
+  display: flex;
+  margin-right: 10px;
+  justify-content: center;
+  align-items: center;
+}
+.SubscribeBtn {
   user-select: none;
   cursor: pointer;
-  width: 60px;
-  height: 40px;
+  width: 100px;
+  height: 50px;
   border: none;
   color: white;
-  font-weight: 20px;
-  font-size: bold;
-  border-radius: 5px;
+  font-size: 14px;
+  border-radius: 10px;
   background-color: var(--color-button);
 }
-.followBtn:hover {
+.SubscribeBtn:hover {
   opacity: 0.9;
 }
-.followBtn:active {
+.SubscribeBtn:active {
   opacity: 0.7;
 }
 .friendItemInfo {
