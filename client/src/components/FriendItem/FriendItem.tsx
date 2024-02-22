@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { RouteNames } from '../../router/routes.tsx';
 
 const FriendItem: React.FC = () => {
-  const [subscriptionStatus, setSubscriptionStatus] = useState(true);
+  const [subscriptionStatus, setSubscriptionStatus] = useState<boolean>(true);
   const changeSubscriptionStatus = () => {
     setSubscriptionStatus(!subscriptionStatus);
   };

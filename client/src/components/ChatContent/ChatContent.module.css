@@ -1,0 +1,33 @@
+.chatContent {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+.chatInfo {
+    width: 100%;
+    display: grid;
+    align-items: center;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid rgba(64, 64, 64, 0.5);
+    grid-template-columns: calc(40px + 1rem) auto;
+    grid-template-rows: repeat(1, 1fr);
+    grid-template-areas: "avatar chatListItemInfo";
+}
+.avatar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    grid-area: avatar;
+    padding-right: 1rem;
+}
+.chatsListItemInfo {
+    grid-area: chatListItemInfo;
+    display: grid;
+    grid-template-rows: repeat(2, 1fr);
+    height: 100%;
+}
+.userStatus > span {
+    color: #757476;
+}

@@ -13,7 +13,7 @@
     max-height: calc(100vh - 80px - 20px);
 }
 .chatsList::-webkit-scrollbar {
-    width: 8px;
+    width: 0;
 }
 
 .chatsList::-webkit-scrollbar-thumb {
