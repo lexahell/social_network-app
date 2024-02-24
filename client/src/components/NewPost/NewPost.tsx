@@ -10,7 +10,7 @@ const NewPost: React.FC = () => {
           cols={10}
         ></textarea>
       </div>
-      <button className={styles.btnAddPost}>Add post</button>
+      {/* <button className={styles.btnAddPost}>Add post</button> */}
     </div>
   );
 };
