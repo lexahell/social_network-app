@@ -46,6 +46,7 @@ nav > * {
   font-size: bold;
   border-radius: 5px;
   background-color: var(--color-button);
+  transition: 0.3s ease-out;
 }
 .buttonSign:hover {
   opacity: 0.9;

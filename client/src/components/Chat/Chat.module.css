@@ -6,7 +6,7 @@
     border-top: 10px;
     position: relative;
     flex-grow: 1;
-    padding: 10px 15px;
+    padding: 20px 60px;
     margin-bottom: 20px;
     overflow-y: scroll;
     max-height: calc(100vh - 80px - 20px);

@@ -46,7 +46,12 @@ const Login : React.FC = () => {
                         name="email"
                         control={control}
                         render={({ field }) => (
-                            <input type="text" autoComplete="off" {...field} className={`${styles.defaultInput} ${field.value ? styles.activeInput : ''} ${errors.email ? styles.errorInput : ''}`}/>
+                            <input
+                                type="text"
+                                autoComplete="off"
+                                {...field}
+                                className={`${styles.defaultInput} ${field.value ? styles.activeInput : ''} ${errors.email ? styles.errorInput : ''}`}
+                            />
                         )}
                         rules={{
                             required: "Email is required",
@@ -63,7 +68,12 @@ const Login : React.FC = () => {
                         name="password"
                         control={control}defaultValue=""
                         render={({ field }) => (
-                            <input type="password" autoComplete="off" {...field} className={`${styles.defaultInput} ${field.value ? styles.activeInput : ''} ${errors.password ? styles.errorInput : ''}`}/>
+                            <input
+                                type="password"
+                                autoComplete="off"
+                                {...field}
+                                className={`${styles.defaultInput} ${field.value ? styles.activeInput : ''} ${errors.password ? styles.errorInput : ''}`}
+                            />
                         )}
                         rules={{
                             required: "Password is required",

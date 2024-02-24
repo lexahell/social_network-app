@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Layout.module.css'
 import Header from "../Header/Header.tsx";
-import Modal from "../Modal/Modal.tsx";
+import Modal from "../UI/Modal/Modal.tsx";
 import {useAppSelector} from "../../hooks/redux.ts";
 interface LayoutProps {
     children?: React.ReactNode;

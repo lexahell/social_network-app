@@ -1,5 +1,5 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, Roboto, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -13,6 +13,8 @@
   -moz-osx-font-smoothing: grayscale;
   --color-button: rgb(29 78 216);
   --color-main-background: rgb(242 242 242);
+  --emoji-per-row: 10;
+  --emoji-size: 1.125rem;
 }
 * {
   box-sizing: border-box;

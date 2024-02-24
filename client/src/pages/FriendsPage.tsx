@@ -3,7 +3,7 @@ import Layout from '../components/Layout/Layout.tsx';
 import styles from '../pagesStyles/FriendsPage.module.css';
 import FriendItem from '../components/FriendItem/FriendItem.tsx';
 import Friends from '../components/Friends/Friends.tsx';
-import Search from '../components/Search/Search.tsx';
+import Search from '../components/UI/Search/Search.tsx';
 
 const FriendsPage: React.FC = () => {
   return (
