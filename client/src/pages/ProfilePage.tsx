@@ -19,6 +19,7 @@ const ProfilePage: React.FC = () => {
           pageCover={
             'https://bogatyr.club/uploads/posts/2023-03/thumbs/1678870482_bogatyr-club-p-krasivaya-stena-fon-foni-vkontakte-65.jpg'
           }
+          about={'Nothing is eternal under the Moon'}
         />
         <NewPost />
         <Posts>

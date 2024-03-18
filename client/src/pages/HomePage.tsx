@@ -52,6 +52,28 @@ const HomePage: React.FC = () => {
             '              Dolore, cum?'
           }
         />
+        <PostsItem
+          img={
+            'https://masterpiecer-images.s3.yandex.net/633ff90a78fd11ee90cb1e5d9776cfa6:upscaled'
+          }
+          authorName={'Travis Scot'}
+          postBody={
+            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga iure\n' +
+            '              autem dolorum doloremque, distinctio repellat esse error expedita!\n' +
+            '              Dolore, cum?'
+          }
+        />
+        <PostsItem
+          img={
+            'https://masterpiecer-images.s3.yandex.net/633ff90a78fd11ee90cb1e5d9776cfa6:upscaled'
+          }
+          authorName={'Travis Scot'}
+          postBody={
+            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga iure\n' +
+            '              autem dolorum doloremque, distinctio repellat esse error expedita!\n' +
+            '              Dolore, cum?'
+          }
+        />
       </Posts>
     </Layout>
   );
