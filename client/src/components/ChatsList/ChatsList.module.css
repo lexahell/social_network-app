@@ -7,22 +7,8 @@
     max-width: 350px;
     position: relative;
     flex-grow: 1;
-    padding: 20px 15px;
+    padding: 20px 15px 0 15px;
     margin-bottom: 20px;
-    overflow-y: scroll;
-    max-height: calc(100vh - 80px - 20px);
-}
-.chatsList::-webkit-scrollbar {
-    width: 0;
-}
-
-.chatsList::-webkit-scrollbar-thumb {
-    background-color: #888;
-    border-radius: 4px;
-}
-
-.chatsList::-webkit-scrollbar-thumb:hover {
-    background-color: #555;
 }
 .usersCards {
     display: flex;
@@ -31,4 +17,9 @@
     margin: 1rem 0;
     width: 100%;
     background: transparent;
+    overflow-y: scroll;
+    max-height: calc(100vh - 120px - 11.5rem);
+}
+.usersCards::-webkit-scrollbar {
+    width: 0;
 }

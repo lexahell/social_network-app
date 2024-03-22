@@ -13,6 +13,8 @@
     grid-template-columns: calc(40px + 1rem) auto;
     grid-template-rows: repeat(1, 1fr);
     grid-template-areas: "avatar chatListItemInfo";
+    background-color: #262626;
+    z-index: 100;
 }
 .avatar {
     position: relative;

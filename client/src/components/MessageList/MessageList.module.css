@@ -1,0 +1,21 @@
+.messageList {
+    display: flex;
+    flex-direction: column;
+    row-gap: .5rem;
+    justify-content: flex-start;
+    position: absolute;
+    bottom: calc(63px);
+    width: 100%;
+    max-height: calc(100vh - 80px - 60px - 4rem - 2px - 63px);
+    overflow-y: scroll;
+    padding: .5rem .5rem 1rem .5rem;
+    scroll-behavior: smooth;
+}
+.messageList::-webkit-scrollbar {
+    width: 8px;
+}
+
+.messageList::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+}

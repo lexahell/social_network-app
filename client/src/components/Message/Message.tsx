@@ -1,9 +1,14 @@
 import React from 'react';
-
-const Message : React.FC = () => {
+import styles from './Message.module.css'
+interface MessageProps {
+    messageContent: string
+}
+const Message : React.FC<MessageProps> = ({messageContent}) => {
     return (
-        <div>
-
+        <div className={styles.message}>
+            {messageContent.split('\n').map(sentence => (
+                <span>{sentence}</span>
+            ))}
         </div>
     );
 };

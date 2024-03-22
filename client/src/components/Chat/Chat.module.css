@@ -8,24 +8,12 @@
     flex-grow: 1;
     padding: 20px 60px;
     margin-bottom: 20px;
-    overflow-y: scroll;
+    width: calc(100vh - 350px);
     max-height: calc(100vh - 80px - 20px);
 }
 .chat.nonSelected {
     align-items: center;
     justify-content: center;
-}
-.chat::-webkit-scrollbar {
-    width: 8px;
-}
-
-.chat::-webkit-scrollbar-thumb {
-    background-color: #888;
-    border-radius: 4px;
-}
-
-.chat::-webkit-scrollbar-thumb:hover {
-    background-color: #555;
 }
 .nonSelectedChat {
     color: #757476

@@ -1,0 +1,12 @@
+.message {
+    padding: .5rem;
+    max-width: 40%;
+    border-radius: .8rem;
+    background-color: rgb(29 78 216);
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    align-self: flex-end;
+    word-break: break-word;
+    flex-direction: column;
+}
