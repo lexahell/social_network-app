@@ -4,6 +4,7 @@ interface ProfileHeaderProps {
   avatar?: string;
   userName?: string;
   pageCover?: string;
+  about?: string;
 }
 import styles from './ProfileHeader.module.css';
 import { BiMessageDetail } from 'react-icons/bi';
@@ -13,6 +14,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   avatar,
   userName,
   pageCover,
+  about,
 }) => {
   return (
     <div className={styles.profileHeader}>
@@ -24,7 +26,10 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
           <div>
             <img src={avatar} alt='' className={styles.profileAvatar} />
           </div>
-          <div className={styles.mainInfoUserName}>{userName}</div>
+          <div>
+            <div className={styles.mainInfoUserName}>{userName}</div>
+            <div className={styles.mainInfoAbout}>{about}</div>
+          </div>
         </div>
         <div className={styles.profileButtons}>
           <button className={styles.subscribeButton}>Subsciribe</button>

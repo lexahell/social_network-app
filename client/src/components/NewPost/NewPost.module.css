@@ -1,27 +1,17 @@
 .newPostContainer {
+  background-color: rgba(38, 38, 38, 1);
   margin-top: 20px;
   display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 20px;
+  border-radius: 10px;
+  padding: 30px;
 }
-.btnAddPost {
-  cursor: pointer;
-  width: 100px;
-  height: 40px;
-  border: none;
-  color: white;
-  font-weight: 20px;
-  font-size: bold;
-  border-radius: 5px;
-  background-color: var(--color-button);
-}
-.btnAddPost:hover {
-  opacity: 0.9;
-}
-.btnAddPost:active {
-  opacity: 0.7;
-}
+
 .textareaContainer {
+  border-radius: 15px;
+  background-color: rgba(23, 23, 23, 0.9);
+  padding: 10px;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -30,8 +20,8 @@
   width: 100%;
   padding: 10px;
   border: none;
-  background-color: rgb(38 38 38);
-  border-radius: 10px;
+  background-color: #111;
+  background-color: rgba(23, 23, 23, 0.9);
   font-size: 16px;
   line-height: 1.5;
   resize: none;
@@ -43,6 +33,7 @@
   border-color: var(--color-button);
   outline: none;
 }
+
 .newPostInput::-webkit-scrollbar {
   width: 8px; /* Ширина скроллбара */
 }
@@ -54,4 +45,60 @@
 
 .newPostInput::-webkit-scrollbar-thumb:hover {
   background-color: #555; /* Цвет полосы скроллбара при наведении */
+}
+.buttonsCreatePost {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.squareButton {
+  user-select: none;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border: none;
+  color: #555555;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 5px;
+  stroke: #555555;
+  background-color: white;
+}
+.squareButton svg {
+  margin-top: 3px;
+  width: 30px;
+  height: 30px;
+}
+.sendNewPostButton div {
+  padding: 10px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.sendNewPostButton div svg {
+  fill: var(--color-button);
+  width: 30px;
+}
+.sendNewPostButton {
+  display: flex;
+  background-color: inherit;
+  align-items: center;
+  border: none;
+  cursor: pointer;
+  gap: 10px;
+}
+.sendNewPostButton span {
+  font-size: 16px;
+  color: #999;
+}
+.sendNewPostButton:hover div {
+}
+.miniAvatar img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
 }
