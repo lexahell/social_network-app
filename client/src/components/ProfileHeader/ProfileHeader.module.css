@@ -10,7 +10,7 @@
 .coverContainer {
   width: 100%;
   display: flex;
-  height: 300px;
+  height: 320px;
   padding: 15px 15px 0 15px;
   flex-direction: column;
   align-items: center;
@@ -54,6 +54,7 @@
   margin-bottom: 10px;
 }
 .subscribeButton {
+  transition: 0.2s;
   user-select: none;
   cursor: pointer;
   width: 110px;
@@ -64,19 +65,31 @@
   border-radius: 5px;
   background-color: var(--color-button);
 }
+.subscribeButton:hover {
+  opacity: 0.9;
+}
+.subscribeButton:active {
+  opacity: 0.7;
+}
 .squareButton {
+  transition: 0.2s;
   user-select: none;
   cursor: pointer;
   width: 50px;
   height: 50px;
   border: none;
-  color: #555555;
+  color: var(--color-button);
   font-size: 14px;
   font-weight: bold;
   border-radius: 5px;
-  stroke: #555555;
-  background-color: white;
+  stroke: var(--color-button);
+  background-color: rgba(38, 38, 38);
 }
+
+.squareButton:hover {
+  background-color: rgba(38, 38, 128, 0.5);
+}
+
 .squareButton svg {
   margin-top: 5px;
   width: 30px;

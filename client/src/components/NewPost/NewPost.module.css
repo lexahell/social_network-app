@@ -5,7 +5,7 @@
   flex-direction: column;
   gap: 20px;
   border-radius: 10px;
-  padding: 30px;
+  padding: 20px;
 }
 
 .textareaContainer {
@@ -20,8 +20,7 @@
   width: 100%;
   padding: 10px;
   border: none;
-  background-color: #111;
-  background-color: rgba(23, 23, 23, 0.9);
+  background-color: transparent;
   font-size: 16px;
   line-height: 1.5;
   resize: none;
@@ -51,38 +50,32 @@
   justify-content: space-between;
   align-items: center;
 }
+
 .squareButton {
+  transition: 0.2s;
   user-select: none;
   cursor: pointer;
-  width: 40px;
-  height: 40px;
-  border: none;
-  color: #555555;
-  font-size: 12px;
-  font-weight: bold;
-  border-radius: 5px;
-  stroke: #555555;
-  background-color: white;
-}
-.squareButton svg {
-  margin-top: 3px;
-  width: 30px;
-  height: 30px;
-}
-.sendNewPostButton div {
-  padding: 10px;
   width: 50px;
   height: 50px;
-  border-radius: 50%;
-  background-color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  border: none;
+  color: var(--color-button);
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 5px;
+  stroke: var(--color-button);
+  background-color: transparent;
 }
-.sendNewPostButton div svg {
-  fill: var(--color-button);
+
+.squareButton:hover {
+  background-color: rgba(38, 38, 128, 0.5);
+}
+
+.squareButton svg {
+  margin-top: 5px;
   width: 30px;
+  height: 40px;
 }
+
 .sendNewPostButton {
   display: flex;
   background-color: inherit;
@@ -90,6 +83,22 @@
   border: none;
   cursor: pointer;
   gap: 10px;
+}
+.sendNewPostButton div {
+  margin-left: 10px;
+  /* padding: 10px; */
+  padding-bottom: 5px;
+  border-radius: 50%;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sendNewPostButton div svg {
+  color: var(--color-button);
+  width: 25px;
+  height: 25px;
 }
 .sendNewPostButton span {
   font-size: 16px;

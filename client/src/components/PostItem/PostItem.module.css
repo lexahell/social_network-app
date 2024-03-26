@@ -1,17 +1,41 @@
 .post {
-    background-color:  rgb(38 38 38);
-    padding: 20px;
-    margin-bottom: 10px;
-    border-radius: 10px;
+  background-color: rgb(38 38 38);
+  padding: 20px;
+  margin-bottom: 10px;
+  border-radius: 10px;
 }
 .postTitle {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 .authorNameContainer {
-    margin-left: 1rem;
+  margin-left: 1rem;
 }
 .imgContainer img {
-    border-radius: 50%;
-    width: 50px;
+  border-radius: 50%;
+  width: 50px;
+}
+.actionsContainer {
+  display: flex;
+  gap: 5px;
+  padding-top: 10px;
+}
+.actionBtn {
+  border-radius: 15px 15px 15px 15px;
+  padding: 7px 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background-color: #333;
+}
+.actionBtn svg {
+  width: 20px;
+  height: 20px;
+}
+.likeBtnActive {
+  background-color: tomato;
+}
+.likeBtnInactive {
+  background-color: #333;
 }
