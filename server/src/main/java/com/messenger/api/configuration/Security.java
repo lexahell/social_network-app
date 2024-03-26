@@ -1,5 +1,6 @@
 package com.messenger.api.configuration;
 
+import com.messenger.api.configuration.errors.UserAuthenticationEntryPoint;
 import com.messenger.api.configuration.filter.JwtAuthenticationFilter;
 import com.messenger.api.service.UserService;
 import org.springframework.context.annotation.Bean;
@@ -31,7 +32,8 @@ public class Security {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable)
+        http.exceptionHandling(exception -> exception.authenticationEntryPoint(new UserAuthenticationEntryPoint()))
+            .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(request -> {
                     var corsConfiguration = new CorsConfiguration();
                     corsConfiguration.setAllowedOriginPatterns(List.of("*"));

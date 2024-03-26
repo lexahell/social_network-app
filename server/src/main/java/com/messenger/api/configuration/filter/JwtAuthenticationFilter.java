@@ -2,6 +2,7 @@ package com.messenger.api.configuration.filter;
 
 import com.messenger.api.service.JwtService;
 import com.messenger.api.service.UserService;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,9 +13,12 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.io.IOException;
 
@@ -22,6 +26,7 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     public static final String BEARER_PREFIX = "Bearer ";
     public static final String HEADER_NAME = "Authorization";
+    public static final RequestMatcher ignoredPaths = new AntPathRequestMatcher("/api/v1/auth/**");
     private final JwtService jwtService;
     private final UserService userService;
 
@@ -34,13 +39,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String authHeader = request.getHeader(HEADER_NAME);
 
-        if (!StringUtils.hasText(authHeader) || !StringUtils.startsWithIgnoreCase(authHeader, BEARER_PREFIX)) {
+        if (!StringUtils.hasText(authHeader) || !StringUtils.startsWithIgnoreCase(authHeader, BEARER_PREFIX) || ignoredPaths.matches(request)) {
             filterChain.doFilter(request, response);
             return;
         }
         String jwt = authHeader.substring(BEARER_PREFIX.length());
-        String username = jwtService.extractUserName(jwt);
-
+        String username;
+        try {
+            username = jwtService.extractUserName(jwt);
+        }catch (JwtException e){
+            filterChain.doFilter(request, response);
+            return;
+        }
         if (StringUtils.hasText(username) && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userService
                     .userDetailsService()
