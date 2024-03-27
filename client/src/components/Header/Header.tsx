@@ -1,21 +1,17 @@
 import React from 'react';
 import styles from './Header.module.css';
 import logo from '../../imges/Illustration-of-logo-design-template-on-transparent-background-PNG.png';
-import { Link } from 'react-router-dom';
-import { RouteNames } from '../../router/routes.tsx';
-import { useAppDispatch } from '../../hooks/redux.ts';
-import {
-  setModalContent,
-  setModalVisibility,
-} from '../../store/slices/modalSlice.ts';
-import Login from '../Login/Login.tsx';
+import {Link} from 'react-router-dom';
+import {RouteNames} from '../../router/routes.tsx';
+import {useAppDispatch} from '../../hooks/redux.ts';
+import {setAuthType} from "../../store/slices/authSlice.ts";
+import {AuthType} from "../../types/AuthType.ts";
 
 const Header: React.FC = () => {
   const dispatch = useAppDispatch();
-  const handleSingBtnClick = () => {
-    dispatch(setModalContent(<Login />));
-    dispatch(setModalVisibility(true));
-  };
+  const logOut = () => {
+    dispatch(setAuthType(AuthType.NOT_AUTHED))
+  }
   return (
     <header className={styles.header}>
       <div>
@@ -41,8 +37,8 @@ const Header: React.FC = () => {
           </Link>
         </nav>
         <div className={styles.buttonSignContainer}>
-          <button className={styles.buttonSign} onClick={handleSingBtnClick}>
-            Sign in
+          <button className={styles.buttonSign} onClick={logOut}>
+            Log out
           </button>
         </div>
       </div>

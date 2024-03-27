@@ -1,10 +1,25 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Layout from '../components/Layout/Layout.tsx';
 import Posts from '../components/Posts/Posts.tsx';
 import PostsItem from '../components/PostItem/PostsItem.tsx';
 import styles from '../pagesStyles/HomePage.module.css';
-//потом когда кириллио научится отправлять json то просто будем кидать как props в Posts
+import {useAppDispatch, useAppSelector} from "../hooks/redux.ts";
+import {AuthType} from "../types/AuthType.ts";
+import {toast, Toaster} from "sonner";
+import {setIsAuthNotificationShown} from "../store/slices/authSlice.ts";
 const HomePage: React.FC = () => {
+    const {authType, isAuthNotificationShown} = useAppSelector(state => state.authReducer)
+    const dispatch = useAppDispatch()
+    useEffect(() => {
+        if (authType !== AuthType.NOT_AUTHED && !isAuthNotificationShown) {
+            toast.success(
+                authType === AuthType.LOGIN
+                    ? 'You have successfully logged in'
+                    : 'You have successfully registered'
+            );
+            dispatch(setIsAuthNotificationShown(true))
+        }
+    }, [authType, isAuthNotificationShown]);
   return (
     <Layout>
       <h1 className={styles.pageTitle}>Posts</h1>
@@ -75,6 +90,7 @@ const HomePage: React.FC = () => {
           }
         />
       </Posts>
+        <Toaster position="bottom-right" richColors/>
     </Layout>
   );
 };
