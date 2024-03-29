@@ -18,7 +18,7 @@ public class UserService {
 
     public User create(User user) {
         if (userRepository.existsByUsername(user.getUsername())) {
-            throw new RuntimeException("Пользователь с таким именем уже существует");
+            throw new RuntimeException("User exists");
         }
 
         return save(user);
@@ -26,8 +26,7 @@ public class UserService {
 
     public User getByUsername(String username) {
         return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден"));
-
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
     public UserDetailsService userDetailsService() {

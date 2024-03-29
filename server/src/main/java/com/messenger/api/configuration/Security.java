@@ -1,6 +1,6 @@
 package com.messenger.api.configuration;
 
-import com.messenger.api.configuration.errors.UserAuthenticationEntryPoint;
+import com.messenger.api.configuration.exceptions.UserAuthenticationEntryPoint;
 import com.messenger.api.configuration.filter.JwtAuthenticationFilter;
 import com.messenger.api.service.UserService;
 import org.springframework.context.annotation.Bean;
