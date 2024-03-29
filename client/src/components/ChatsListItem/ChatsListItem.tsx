@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import styles from './ChatsListItem.module.css'
 import {Avatar} from "@mui/material";
 import {useAppDispatch} from "../../hooks/redux.ts";

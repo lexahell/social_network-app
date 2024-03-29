@@ -1,15 +1,14 @@
 import React from 'react';
 // import styles from './PostItem.module.css';
+import styles from './ProfileHeader.module.css';
+import { BiMessageDetail } from 'react-icons/bi';
+import { BsThreeDots } from 'react-icons/bs';
 interface ProfileHeaderProps {
   avatar?: string;
   userName?: string;
   pageCover?: string;
   about?: string;
 }
-import styles from './ProfileHeader.module.css';
-import { BiMessageDetail } from 'react-icons/bi';
-import { BsThreeDots } from 'react-icons/bs';
-
 const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   avatar,
   userName,
