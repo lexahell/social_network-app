@@ -1,5 +1,6 @@
 package com.messenger.api.service;
 
+import com.messenger.api.model.DTO.UserDataDTO;
 import com.messenger.api.model.User;
 import com.messenger.api.repository.UserRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserRepository userRepository;
+
+    private final JwtService jwtService;
 
     public User save(User user) {
         return userRepository.save(user);
@@ -33,12 +36,12 @@ public class UserService {
         return this::getByUsername;
     }
 
-    public User getCurrentUser() {
-        var username = SecurityContextHolder.getContext().getAuthentication().getName();
-        return getByUsername(username);
+    public UserDataDTO getMyInfo() {
+        return new UserDataDTO(getByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
     }
 
-    UserService(UserRepository userRepository){
+    UserService(UserRepository userRepository, JwtService jwtService){
         this.userRepository = userRepository;
+        this.jwtService = jwtService;
     }
 }

@@ -1,19 +1,30 @@
 package com.messenger.api.controller;
 
+import com.messenger.api.model.DTO.UserDataDTO;
+import com.messenger.api.model.User;
 import com.messenger.api.service.UserService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/example")
+@RequestMapping("/api/v1/user")
 public class UserController {
-    private final UserService service;
+    private final UserService userService;
 
-    @GetMapping
-    public String example() {
-        return "Hello, world!";
+    @GetMapping("/my-info")
+    public UserDataDTO myInfo() {
+        return userService.getMyInfo();
     }
 
-    public UserController(UserService service){
-        this.service = service;
+    @GetMapping
+    public UserDataDTO getUserData(@RequestParam(required = true) String username) {
+        return new UserDataDTO(userService.getByUsername(username));
+    }
+
+    public UserController(UserService userService){
+        this.userService = userService;
     }
 }
