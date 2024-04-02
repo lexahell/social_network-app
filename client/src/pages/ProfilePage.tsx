@@ -6,9 +6,11 @@ import ProfileHeader from '../components/ProfileHeader/ProfileHeader.tsx';
 import NewPost from '../components/NewPost/NewPost.tsx';
 import styles from '../pagesStyles/ProfilePage.module.css';
 import pageCover from '../assets/1644978359_9-www-funnyart-club-p-temno-sinii-fon-anime-krasivo-9.jpg';
+import {useAppSelector} from "../hooks/redux.ts";
 
 //потом когда кириллио научится отправлять json то просто будем кидать как props в Posts
 const ProfilePage: React.FC = () => {
+    const {nickName} = useAppSelector(state => state.authReducer)
   return (
     <Layout>
       <div className={styles.ProfilePageContent}>
@@ -16,7 +18,7 @@ const ProfilePage: React.FC = () => {
           avatar={
             'https://masterpiecer-images.s3.yandex.net/633ff90a78fd11ee90cb1e5d9776cfa6:upscaled'
           }
-          userName={'Travis Scot'}
+          nickName={nickName}
           pageCover={pageCover}
           about={'Nothing is eternal under the Moon'}
         />

@@ -65,11 +65,11 @@ const ChatInput: React.FC = () => {
                         <TextareaAutosize placeholder={'Type your message'} minRows={1} maxRows={7}
                                           onChange={handleInput} value={message} onKeyDown={handleKeyDownClick}/>
                         <div className={styles.emojiPickerImg} onClick={toggleEmojiPicker} ref={emojiPickerSwitcher}>
-                            <MdOutlineEmojiEmotions color={'hsla(0,0%,100%,.9)'} size={20}/>
+                            <MdOutlineEmojiEmotions color={'hsla(0,0%,100%,.9)'} size={22}/>
                         </div>
                     </div>
                     <button type={'button'} disabled={message.trim() === ""} onClick={sendMessage}>
-                        <FiSend color={'hsla(0,0%,100%,.9)'} size={16}/>
+                        <FiSend color={'hsla(0,0%,100%,.9)'} size={20}/>
                     </button>
                 </div>
             </form>

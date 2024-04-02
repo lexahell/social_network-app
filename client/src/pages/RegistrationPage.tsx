@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
 import {useAppDispatch} from "../hooks/redux.ts";
 import {useSignUpMutation} from "../services/socialAppService.ts";
@@ -10,6 +10,8 @@ import styles from '../pagesStyles/RegistrationPage.module.css'
 import {Link, useNavigate} from "react-router-dom";
 import {RouteNames} from "../router/routes.tsx";
 import registrationPageImg from '../imges/11668720_20945740.svg';
+import {AuthError} from "../types/AuthError.ts";
+import {CustomError} from "../types/CustomError.ts";
 interface RegistrationFormValues {
     nickName: string;
     userName: string;
@@ -20,7 +22,6 @@ const RegistrationPage: React.FC = () => {
     const {
         handleSubmit,
         formState: { errors },
-        setError,
         control
     } = useForm<RegistrationFormValues>({
         defaultValues: {
@@ -33,6 +34,10 @@ const RegistrationPage: React.FC = () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     const [signUp, {isLoading}] = useSignUpMutation()
+    const [registrationError, setRegistrationError] = useState<AuthError>({
+        isError: false,
+        message: ""
+    })
     const confirmRegistration: SubmitHandler<RegistrationFormValues> = async ({nickName, userName, password}): Promise<void> => {
         try {
             const response: AuthResponse = await signUp({
@@ -40,13 +45,14 @@ const RegistrationPage: React.FC = () => {
                 userName,
                 password
             }).unwrap()
-            console.log(response)
+            localStorage.setItem("token", response.token)
             dispatch(setAuthType(AuthType.REGISTRATION))
             navigate(RouteNames.HOME)
         } catch(e) {
-            setError("registrationError", {
-                type: "manual",
-                message: "Registration error"
+            const errorData = e as CustomError
+            setRegistrationError({
+                isError: true,
+                message: errorData.data.message
             })
         }
     };
@@ -142,9 +148,9 @@ const RegistrationPage: React.FC = () => {
                     </div>
                     <button>{isLoading ? <CircularProgress size={20} color={"inherit"}/> : "Sign up"}</button>
                     {
-                        errors.registrationError &&
+                        registrationError.isError &&
                         <div className={styles.registrationError}>
-                            {errors.registrationError.message}
+                            {registrationError.message}
                         </div>
                     }
                     <span className={styles.accountInfo}>Already have an account? <Link

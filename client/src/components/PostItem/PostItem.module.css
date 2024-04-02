@@ -28,6 +28,7 @@
   align-items: center;
   border: none;
   background-color: #333;
+  cursor: pointer;
 }
 .actionBtn svg {
   width: 20px;

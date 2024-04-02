@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
 import {useAppDispatch} from "../hooks/redux.ts";
 import {useSingInMutation} from "../services/socialAppService.ts";
@@ -10,6 +10,8 @@ import styles from '../pagesStyles/LoginPage.module.css'
 import {Link, useNavigate} from "react-router-dom";
 import {RouteNames} from "../router/routes.tsx";
 import loginPageImg from '../imges/11668720_20945740.svg';
+import {AuthError} from "../types/AuthError.ts";
+import {CustomError} from "../types/CustomError.ts";
 interface LoginFormValues {
     userName: string;
     password: string;
@@ -19,7 +21,6 @@ const LoginPage: React.FC = () => {
     const {
         handleSubmit,
         formState: { errors },
-        setError,
         control
     } = useForm<LoginFormValues>({
         defaultValues: {
@@ -31,19 +32,24 @@ const LoginPage: React.FC = () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     const [signIn, {isLoading}] = useSingInMutation()
+    const [loginError, setLoginError] = useState<AuthError>({
+        isError: false,
+        message: ""
+    })
     const confirmLogin: SubmitHandler<LoginFormValues> = async ({userName, password}): Promise<void> => {
         try {
             const response: AuthResponse = await signIn({
                 userName,
                 password
             }).unwrap()
-            console.log(response)
+            localStorage.setItem("token", response.token)
             dispatch(setAuthType(AuthType.LOGIN))
             navigate(RouteNames.HOME)
-        } catch (e) {
-            setError("loginError", {
-                type: "manual",
-                message: "Login error"
+        } catch (e: any) {
+            const errorData = e as CustomError
+            setLoginError({
+                isError: true,
+                message: errorData.data.message
             })
         }
     }
@@ -113,9 +119,9 @@ const LoginPage: React.FC = () => {
                     </div>
                     <button>{isLoading ? <CircularProgress size={20} color={"inherit"}/> : "Sign in"}</button>
                     {
-                        errors.loginError &&
+                        loginError.isError &&
                         <div className={styles.loginError}>
-                            {errors.loginError.message}
+                            {loginError.message}
                         </div>
                     }
                     <span className={styles.accountInfo}>Don't have an account? <Link to={"/registration"}>Sign up</Link></span>

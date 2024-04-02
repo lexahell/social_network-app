@@ -3,13 +3,13 @@ import {AuthType} from "../../types/AuthType.ts";
 
 interface AuthState {
     nickName: string;
-    token: string;
+    userName: string;
     authType: AuthType;
     isAuthNotificationShown: boolean;
 }
 const initialState: AuthState = {
     nickName: "",
-    token: "",
+    userName: "",
     authType: AuthType.NOT_AUTHED,
     isAuthNotificationShown: false
 }
@@ -21,8 +21,8 @@ const authSlice = createSlice({
         setNickName: (state = initialState, action: PayloadAction<string>) => {
             state.nickName = action.payload
         },
-        setToken: (state = initialState, action: PayloadAction<string>) => {
-            state.token = action.payload
+        setUserName: (state = initialState, action: PayloadAction<string>) => {
+            state.userName = action.payload
         },
         setAuthType: (state = initialState, action: PayloadAction<AuthType>) => {
             state.authType = action.payload
@@ -32,5 +32,5 @@ const authSlice = createSlice({
         }
     }
 })
-export const {setNickName, setToken, setAuthType, setIsAuthNotificationShown} = authSlice.actions
+export const {setNickName, setAuthType, setIsAuthNotificationShown, setUserName} = authSlice.actions
 export default authSlice.reducer

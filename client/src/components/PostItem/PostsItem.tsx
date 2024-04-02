@@ -32,7 +32,7 @@ const PostsItem: React.FC<PostItemProps> = ({ img, authorName, postBody }) => {
               switchIsLiked(false);
             }}
           >
-            <GoHeartFill />
+            <GoHeartFill color={'fff'}/>
           </button>
         ) : (
           <button
@@ -41,14 +41,14 @@ const PostsItem: React.FC<PostItemProps> = ({ img, authorName, postBody }) => {
               switchIsLiked(true);
             }}
           >
-            <GoHeart />
+            <GoHeart color={'fff'}/>
           </button>
         )}
         <button className={styles.actionBtn}>
-          <GoComment />
+          <GoComment color={'fff'}/>
         </button>
         <button className={styles.actionBtn}>
-          <TbShare3 />
+          <TbShare3 color={'fff'}/>
         </button>
       </div>
     </div>

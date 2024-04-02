@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ChangeEventHandler, MouseEventHandler} from 'react';
 import styles from './NewPost.module.css';
 import { BsThreeDots } from 'react-icons/bs';
 import { useState } from 'react';
@@ -6,11 +6,11 @@ import { FaPlus } from 'react-icons/fa6';
 const NewPost: React.FC = () => {
   const [value, setValue] = useState('');
 
-  const handleClear = (e) => {
+  const handleClear: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.preventDefault();
     setValue('');
   };
-  const handleChange = (e) => setValue(e.target.value);
+  const handleChange: ChangeEventHandler<HTMLTextAreaElement> = (e) => setValue(e.target.value);
   return (
     <div className={styles.newPostContainer}>
       <div className={styles.buttonsCreatePost}>

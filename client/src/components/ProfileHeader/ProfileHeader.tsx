@@ -5,13 +5,13 @@ import { BiMessageDetail } from 'react-icons/bi';
 import { BsThreeDots } from 'react-icons/bs';
 interface ProfileHeaderProps {
   avatar?: string;
-  userName?: string;
+  nickName?: string;
   pageCover?: string;
   about?: string;
 }
 const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   avatar,
-  userName,
+  nickName,
   pageCover,
   about,
 }) => {
@@ -26,7 +26,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
             <img src={avatar} alt='' className={styles.profileAvatar} />
           </div>
           <div>
-            <div className={styles.mainInfoUserName}>{userName}</div>
+            <div className={styles.mainInfoNickName}>{nickName}</div>
             <div className={styles.mainInfoAbout}>{about}</div>
           </div>
         </div>

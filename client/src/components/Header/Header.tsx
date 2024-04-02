@@ -4,13 +4,18 @@ import logo from '../../imges/Illustration-of-logo-design-template-on-transparen
 import {Link} from 'react-router-dom';
 import {RouteNames} from '../../router/routes.tsx';
 import {useAppDispatch} from '../../hooks/redux.ts';
-import {setAuthType} from "../../store/slices/authSlice.ts";
+import {setAuthType, setIsAuthNotificationShown, setNickName, setUserName} from "../../store/slices/authSlice.ts";
 import {AuthType} from "../../types/AuthType.ts";
 
 const Header: React.FC = () => {
   const dispatch = useAppDispatch();
   const logOut = () => {
+    localStorage.removeItem("token")
+    localStorage.setItem("lastVisitedPage", RouteNames.HOME)
     dispatch(setAuthType(AuthType.NOT_AUTHED))
+    dispatch(setNickName(""))
+    dispatch(setUserName(""))
+    dispatch(setIsAuthNotificationShown(false))
   }
   return (
     <header className={styles.header}>
@@ -22,7 +27,6 @@ const Header: React.FC = () => {
           <div className={styles.logoText}>Social network</div>
         </div>
         <nav>
-          {/*Пока все ведут на главную страницу*/}
           <Link to={RouteNames.HOME}>
             <h3>News</h3>
           </Link>
