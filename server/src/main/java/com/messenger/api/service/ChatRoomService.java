@@ -24,7 +24,7 @@ public class ChatRoomService {
                         String chatId = createChatId(senderUsername, recipientUsername);
                         return Optional.of(chatId);
                     }
-                    return  Optional.empty();
+                    return Optional.empty();
                 });
     }
     private String createChatId(String senderUsername, String recipientUsername) {

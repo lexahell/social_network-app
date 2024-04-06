@@ -1,11 +1,10 @@
 package com.messenger.api.model.DTO;
 
-import com.messenger.api.model.Status;
+import com.messenger.api.model.User.Status;
 import com.messenger.api.model.User;
 
 public class UserDataDTO {
     private String nickname;
-
     private String username;
     private Status status;
 

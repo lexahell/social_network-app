@@ -12,6 +12,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
@@ -27,6 +28,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     public static final String BEARER_PREFIX = "Bearer ";
     public static final String HEADER_NAME = "Authorization";
     public static final RequestMatcher ignoredPaths = new AntPathRequestMatcher("/api/v1/auth/**");
+    public static final RequestMatcher wsPath = new AntPathRequestMatcher("/ws");
     private final JwtService jwtService;
     private final UserService userService;
 
@@ -39,12 +41,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String authHeader = request.getHeader(HEADER_NAME);
 
-        if (!StringUtils.hasText(authHeader) || !StringUtils.startsWithIgnoreCase(authHeader, BEARER_PREFIX) || ignoredPaths.matches(request)) {
+        if ((!StringUtils.hasText(authHeader) ||
+                !StringUtils.startsWithIgnoreCase(authHeader, BEARER_PREFIX) ||
+                ignoredPaths.matches(request)) && (!wsPath.matches(request)))
+        {
             filterChain.doFilter(request, response);
             return;
         }
-        String jwt = authHeader.substring(BEARER_PREFIX.length());
+
+        String jwt = wsPath.matches(request) ? request.getParameter("token") : authHeader.substring(BEARER_PREFIX.length());
         String username;
+
         try {
             username = jwtService.extractUserName(jwt);
         }catch (JwtException e){
@@ -52,10 +59,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
         if (StringUtils.hasText(username) && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userService
-                    .userDetailsService()
-                    .loadUserByUsername(username);
-
+            UserDetails userDetails;
+            try {
+                userDetails = userService
+                        .userDetailsService()
+                        .loadUserByUsername(username);
+            } catch (UsernameNotFoundException e){
+                filterChain.doFilter(request, response);
+                return;
+            }
             if (jwtService.isTokenValid(jwt, userDetails)) {
                 SecurityContext context = SecurityContextHolder.createEmptyContext();
 
