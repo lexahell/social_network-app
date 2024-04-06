@@ -3,19 +3,22 @@ import styles from './Header.module.css';
 import logo from '../../imges/Illustration-of-logo-design-template-on-transparent-background-PNG.png';
 import {Link} from 'react-router-dom';
 import {RouteNames} from '../../router/routes.tsx';
-import {useAppDispatch} from '../../hooks/redux.ts';
-import {setAuthType, setIsAuthNotificationShown, setNickName, setUserName} from "../../store/slices/authSlice.ts";
+import {useAppDispatch, useAppSelector} from '../../hooks/redux.ts';
+import {setAuthType, setIsAuthNotificationShown, setNickname, setUsername} from "../../store/slices/authSlice.ts";
 import {AuthType} from "../../types/AuthType.ts";
+import {WebSocketService} from "../../services/WebSocketService.ts";
 
 const Header: React.FC = () => {
   const dispatch = useAppDispatch();
+  const {username} = useAppSelector(state => state.authReducer)
   const logOut = () => {
     localStorage.removeItem("token")
     localStorage.setItem("lastVisitedPage", RouteNames.HOME)
     dispatch(setAuthType(AuthType.NOT_AUTHED))
-    dispatch(setNickName(""))
-    dispatch(setUserName(""))
+    dispatch(setNickname(""))
+    dispatch(setUsername(""))
     dispatch(setIsAuthNotificationShown(false))
+    WebSocketService.onLogout(username)
   }
   return (
     <header className={styles.header}>

@@ -1,5 +1,5 @@
 .message {
-    padding: .5rem;
+    padding: .5rem .8rem;
     max-width: 40%;
     border-radius: .8rem;
     background-color: rgb(29 78 216);
@@ -9,4 +9,9 @@
     align-self: flex-end;
     word-break: break-word;
     flex-direction: column;
+}
+.message.friendMessage {
+    background-color: rgba(23, 23, 23, .9);
+    align-self: flex-start;
+    align-items: flex-start;
 }

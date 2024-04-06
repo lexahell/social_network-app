@@ -1,19 +1,19 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {UserStatus} from "../../types/UserStatus.ts";
+
 interface ChatState {
   isChatSelected: boolean;
-  userAvatar: string;
-  userName: string;
+  recipientAvatar: string;
+  recipientNickname: string;
+  recipientUsername: string;
   status: UserStatus;
-}
-export enum UserStatus {
-  ONLINE,
-  OFFLINE,
 }
 const initialState: ChatState = {
   isChatSelected: false,
-  userAvatar: '',
-  userName: '',
-  status: UserStatus.OFFLINE,
+  recipientAvatar: '',
+  recipientNickname: '',
+  recipientUsername: '',
+  status: UserStatus.OFFLINE
 };
 const chatSlice = createSlice({
   name: 'chat',
@@ -22,17 +22,25 @@ const chatSlice = createSlice({
     setIsChatSelected: (state, action: PayloadAction<boolean>) => {
       state.isChatSelected = action.payload;
     },
-    setUserAvatar: (state, action: PayloadAction<string>) => {
-      state.userAvatar = action.payload;
+    setRecipientAvatar: (state, action: PayloadAction<string>) => {
+      state.recipientAvatar = action.payload;
     },
-    setUserName: (state, action: PayloadAction<string>) => {
-      state.userName = action.payload;
+    setRecipientNickname: (state, action: PayloadAction<string>) => {
+      state.recipientNickname = action.payload;
+    },
+    setRecipientUsername: (state = initialState, action: PayloadAction<string>) => {
+      state.recipientUsername = action.payload
     },
     setStatus: (state, action: PayloadAction<UserStatus>) => {
       state.status = action.payload;
     },
   },
 });
-export const { setIsChatSelected, setUserAvatar, setUserName, setStatus } =
-  chatSlice.actions;
+export const {
+  setIsChatSelected,
+  setRecipientAvatar,
+  setRecipientNickname,
+  setRecipientUsername,
+  setStatus
+} = chatSlice.actions;
 export default chatSlice.reducer;

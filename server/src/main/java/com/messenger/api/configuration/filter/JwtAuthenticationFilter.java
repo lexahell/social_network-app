@@ -40,7 +40,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     ) throws ServletException, IOException {
 
         String authHeader = request.getHeader(HEADER_NAME);
-
         if ((!StringUtils.hasText(authHeader) ||
                 !StringUtils.startsWithIgnoreCase(authHeader, BEARER_PREFIX) ||
                 ignoredPaths.matches(request)) && (!wsPath.matches(request)))

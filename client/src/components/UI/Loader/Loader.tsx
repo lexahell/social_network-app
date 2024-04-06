@@ -1,9 +1,13 @@
 import styles from './Loader.module.css'
 import {BounceLoader} from "react-spinners";
-const Loader = () => {
+import React from "react";
+interface LoaderPops {
+    size: number
+}
+const Loader: React.FC<LoaderPops> = ({size}) => {
     return (
         <div className={styles.loader}>
-            <BounceLoader color={"rgb(29 78 216)"} size={60}/>
+            <BounceLoader color={"rgb(29 78 216)"} size={size}/>
         </div>
     );
 };
