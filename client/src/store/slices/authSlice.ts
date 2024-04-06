@@ -1,28 +1,34 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {AuthType} from "../../types/AuthType.ts";
+import {UserStatus} from "../../types/UserStatus.ts";
 
 interface AuthState {
-    nickName: string;
-    userName: string;
+    nickname: string;
+    username: string;
     authType: AuthType;
+    userStatus: UserStatus;
     isAuthNotificationShown: boolean;
 }
 const initialState: AuthState = {
-    nickName: "",
-    userName: "",
+    nickname: "",
+    username: "",
+    userStatus: UserStatus.OFFLINE,
     authType: AuthType.NOT_AUTHED,
     isAuthNotificationShown: false
 }
 
 const authSlice = createSlice({
-    name: "user",
+    name: "auth",
     initialState,
     reducers: {
-        setNickName: (state = initialState, action: PayloadAction<string>) => {
-            state.nickName = action.payload
+        setNickname: (state = initialState, action: PayloadAction<string>) => {
+            state.nickname = action.payload
         },
-        setUserName: (state = initialState, action: PayloadAction<string>) => {
-            state.userName = action.payload
+        setUsername: (state = initialState, action: PayloadAction<string>) => {
+            state.username = action.payload
+        },
+        setUserStatus: (state = initialState, action: PayloadAction<UserStatus>) => {
+            state.userStatus = action.payload
         },
         setAuthType: (state = initialState, action: PayloadAction<AuthType>) => {
             state.authType = action.payload
@@ -32,5 +38,11 @@ const authSlice = createSlice({
         }
     }
 })
-export const {setNickName, setAuthType, setIsAuthNotificationShown, setUserName} = authSlice.actions
+export const {
+    setNickname,
+    setAuthType,
+    setIsAuthNotificationShown,
+    setUsername,
+    setUserStatus
+} = authSlice.actions
 export default authSlice.reducer

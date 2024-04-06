@@ -17,10 +17,6 @@
     z-index: 100;
 }
 .avatar {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
     grid-area: avatar;
     padding-right: 1rem;
 }
