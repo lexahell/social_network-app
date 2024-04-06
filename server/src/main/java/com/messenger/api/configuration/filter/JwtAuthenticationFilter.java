@@ -28,7 +28,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     public static final String BEARER_PREFIX = "Bearer ";
     public static final String HEADER_NAME = "Authorization";
     public static final RequestMatcher ignoredPaths = new AntPathRequestMatcher("/api/v1/auth/**");
-    public static final RequestMatcher wsPath = new AntPathRequestMatcher("/ws");
+    public static final RequestMatcher wsPath = new AntPathRequestMatcher("/ws/**");
     private final JwtService jwtService;
     private final UserService userService;
 

@@ -4,6 +4,7 @@ import com.messenger.api.model.DTO.JwtAuthenticationResponseDTO;
 import com.messenger.api.model.DTO.SignInRequestDTO;
 import com.messenger.api.model.DTO.SignUpRequestDTO;
 import com.messenger.api.model.User;
+import com.messenger.api.model.User.Role;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,7 +23,7 @@ public class AuthenticationService {
         User user = new User(request.getNickname(),
                 request.getUsername(),
                 passwordEncoder.encode(request.getPassword()),
-                User.Role.USER);
+                Role.USER);
 
         userService.create(user);
 

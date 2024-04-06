@@ -1,13 +1,9 @@
 package com.messenger.api.model.DTO;
 
-public class ErrorDTO {
+public class MessageDTO {
     private String message;
 
-    public ErrorDTO() {
-        super();
-    }
-
-    public ErrorDTO(String message) {
+    public MessageDTO(String message) {
         this.message = message;
     }
 
