@@ -11,10 +11,6 @@
     cursor: pointer;
 }
 .avatar {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
     grid-area: avatar;
     padding: 0 1rem;
 }

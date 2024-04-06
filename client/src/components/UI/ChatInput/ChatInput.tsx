@@ -4,8 +4,9 @@ import {FiSend} from "react-icons/fi";
 import {MdOutlineEmojiEmotions} from "react-icons/md";
 import {TextareaAutosize} from '@mui/base/TextareaAutosize';
 import EmojiPicker from "../../EmojiPicker/EmojiPicker.tsx";
-import {useAppDispatch} from "../../../hooks/redux.ts";
+import {useAppDispatch, useAppSelector} from "../../../hooks/redux.ts";
 import {addMessage} from "../../../store/slices/messageSlice.ts";
+import {WebSocketService} from "../../../services/WebSocketService.ts";
 
 const ChatInput: React.FC = () => {
     const [message, setMessage] = useState<string>("")
@@ -13,6 +14,8 @@ const ChatInput: React.FC = () => {
     const emojiPickerRef = useRef<HTMLDivElement>(null)
     const emojiPickerSwitcher = useRef<HTMLDivElement>(null)
     const dispatch = useAppDispatch()
+    const {username} = useAppSelector(state => state.authReducer)
+    const {recipientUsername} = useAppSelector(state => state.chatReducer)
     const registerWindowClick = (e: MouseEvent) => {
         if (emojiPickerRef.current) {
             if (e.clientX < emojiPickerRef.current.getBoundingClientRect().left
@@ -34,9 +37,14 @@ const ChatInput: React.FC = () => {
         setMessage(message + emoji)
     }
     const sendMessage = () => {
-        dispatch(addMessage({
-            messageContent: message.trim()
-        }))
+        const chatMessage = {
+            content: message.trim(),
+            senderUsername: username,
+            recipientUsername,
+            timestamp: new Date()
+        }
+        WebSocketService.sendMessage(chatMessage)
+        dispatch(addMessage(chatMessage))
         setMessage("")
     }
     const handleKeyDownClick: KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
