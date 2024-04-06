@@ -1,8 +1,8 @@
 package com.messenger.api.service;
 
 import com.messenger.api.model.DTO.UserDataDTO;
-import com.messenger.api.model.Status;
 import com.messenger.api.model.User;
+import com.messenger.api.model.User.Status;
 import com.messenger.api.repository.UserRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,8 +16,6 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final UserRepository userRepository;
-
-    private final JwtService jwtService;
 
     public User save(User user) {
         return userRepository.save(user);
@@ -58,8 +56,7 @@ public class UserService {
         return new UserDataDTO(getByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
     }
 
-    UserService(UserRepository userRepository, JwtService jwtService){
+    UserService(UserRepository userRepository){
         this.userRepository = userRepository;
-        this.jwtService = jwtService;
     }
 }
