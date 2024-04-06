@@ -1,19 +1,23 @@
 package com.messenger.api.model.DTO;
 
+import com.messenger.api.model.Status;
 import com.messenger.api.model.User;
 
 public class UserDataDTO {
     private String nickname;
 
     private String username;
+    private Status status;
 
-    public UserDataDTO(String nickname, String username) {
+    public UserDataDTO(String nickname, String username, Status status) {
         this.nickname = nickname;
         this.username = username;
+        this.status = status;
     }
     public UserDataDTO(User user) {
         this.nickname = user.getNickname();
         this.username = user.getUsername();
+        this.status = user.getStatus();
     }
 
     public String getNickname() {
@@ -24,11 +28,5 @@ public class UserDataDTO {
         return username;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
+    public Status getStatus() { return status; }
 }

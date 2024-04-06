@@ -1,12 +1,16 @@
 package com.messenger.api.service;
 
 import com.messenger.api.model.DTO.UserDataDTO;
+import com.messenger.api.model.Status;
 import com.messenger.api.model.User;
 import com.messenger.api.repository.UserRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -19,11 +23,21 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public void connectUser(String username) {
+        User storedUser = getByUsername(username);
+        storedUser.setStatus(Status.ONLINE);
+        save(storedUser);
+    }
+
+    public void disconnectUser(String username) {
+        User storedUser = getByUsername(username);
+        storedUser.setStatus(Status.OFFLINE);
+        save(storedUser);
+    }
     public User create(User user) {
         if (userRepository.existsByUsername(user.getUsername())) {
             throw new RuntimeException("User exists");
         }
-
         return save(user);
     }
 
@@ -32,6 +46,10 @@ public class UserService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
+    public List<UserDataDTO> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        return users.stream().map(UserDataDTO::new).collect(Collectors.toList());
+    }
     public UserDetailsService userDetailsService() {
         return this::getByUsername;
     }

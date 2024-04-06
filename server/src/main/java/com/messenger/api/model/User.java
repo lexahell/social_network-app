@@ -32,6 +32,10 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private Role role;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Status status;
+
     //@OneToMany(mappedBy="friend")
     //private Set<Friend> friends;
 
@@ -60,6 +64,7 @@ public class User implements UserDetails {
     public Role getRole(){
         return role;
     }
+    public Status getStatus() { return status; }
 
     @Override
     public boolean isAccountNonExpired() {
@@ -100,6 +105,7 @@ public class User implements UserDetails {
     public void setRole(Role role) {
         this.role = role;
     }
+    public void setStatus(Status status) { this.status = status; }
 
     public User() {}
 
@@ -108,5 +114,6 @@ public class User implements UserDetails {
         this.username = username;
         this.password = password;
         this.role = role;
+        this.status = Status.OFFLINE;
     }
 }
