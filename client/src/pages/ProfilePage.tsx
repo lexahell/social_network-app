@@ -10,7 +10,7 @@ import {useAppSelector} from "../hooks/redux.ts";
 
 //потом когда кириллио научится отправлять json то просто будем кидать как props в Posts
 const ProfilePage: React.FC = () => {
-    const {nickName} = useAppSelector(state => state.authReducer)
+    const {nickname} = useAppSelector(state => state.authReducer)
   return (
     <Layout>
       <div className={styles.ProfilePageContent}>
@@ -18,7 +18,7 @@ const ProfilePage: React.FC = () => {
           avatar={
             'https://masterpiecer-images.s3.yandex.net/633ff90a78fd11ee90cb1e5d9776cfa6:upscaled'
           }
-          nickName={nickName}
+          nickName={nickname}
           pageCover={pageCover}
           about={'Nothing is eternal under the Moon'}
         />
