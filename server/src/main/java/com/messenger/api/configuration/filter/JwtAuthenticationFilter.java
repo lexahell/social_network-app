@@ -28,7 +28,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     public static final String BEARER_PREFIX = "Bearer ";
     public static final String HEADER_NAME = "Authorization";
     public static final RequestMatcher ignoredPaths = new AntPathRequestMatcher("/api/v1/auth/**");
-    public static final RequestMatcher wsPath = new AntPathRequestMatcher("/ws");
+    public static final RequestMatcher wsPath = new AntPathRequestMatcher("/ws/**");
     private final JwtService jwtService;
     private final UserService userService;
 
@@ -40,7 +40,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     ) throws ServletException, IOException {
 
         String authHeader = request.getHeader(HEADER_NAME);
-
         if ((!StringUtils.hasText(authHeader) ||
                 !StringUtils.startsWithIgnoreCase(authHeader, BEARER_PREFIX) ||
                 ignoredPaths.matches(request)) && (!wsPath.matches(request)))
@@ -50,8 +49,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         String jwt = wsPath.matches(request) ? request.getParameter("token") : authHeader.substring(BEARER_PREFIX.length());
+        System.out.println(jwt);
         String username;
-
         try {
             username = jwtService.extractUserName(jwt);
         }catch (JwtException e){

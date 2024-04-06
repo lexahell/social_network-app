@@ -29,10 +29,9 @@ function App() {
   }, [data, authType]);
   useEffect(() => {
     if (nickname && username) {
-      const socket = new SockJS("http://localhost:8080/ws")
+      const socket = new SockJS(`http://localhost:8080/ws?token=${localStorage.getItem("token")}`);
       WebSocketService.stompClient = Stomp.over(socket)
-      WebSocketService.stompClient.connect({},
-          () => WebSocketService.onConnected(username),
+      WebSocketService.stompClient.connect({}, () => WebSocketService.onConnected(username),
           WebSocketService.onError)
       dispatch(setUserStatus(UserStatus.ONLINE))
     }
