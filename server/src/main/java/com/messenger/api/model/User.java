@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "Users")
@@ -41,9 +42,12 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private Status status;
 
-
-    //@OneToMany(mappedBy="friend")
-    //private Set<Friend> friends;
+    @ManyToMany
+    @JoinTable(
+            name = "subscriptions",
+            joinColumns = @JoinColumn(name = "subscriber_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<User> subscriptions;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -73,6 +77,9 @@ public class User implements UserDetails {
 
     public Status getStatus() { return status; }
 
+    public Set<User> getSubscriptions() {
+        return subscriptions;
+    }
 
     @Override
     public boolean isAccountNonExpired() {
@@ -116,6 +123,9 @@ public class User implements UserDetails {
 
     public void setStatus(Status status) { this.status = status; }
 
+    public void setSubscriptions(Set<User> subscriptions) {
+        this.subscriptions = subscriptions;
+    }
 
     public User() {}
 

@@ -1,5 +1,6 @@
 package com.messenger.api.service;
 
+import com.messenger.api.model.DTO.MessageDTO;
 import com.messenger.api.model.DTO.UserDataDTO;
 import com.messenger.api.model.User;
 import com.messenger.api.model.User.Status;
@@ -17,20 +18,16 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public User save(User user) {
-        return userRepository.save(user);
-    }
-
     public void connectUser(String username) {
         User storedUser = getByUsername(username);
         storedUser.setStatus(Status.ONLINE);
-        save(storedUser);
+        userRepository.save(storedUser);
     }
 
     public void disconnectUser(String username) {
         User storedUser = getByUsername(username);
         storedUser.setStatus(Status.OFFLINE);
-        save(storedUser);
+        userRepository.save(storedUser);
     }
 
 
@@ -38,7 +35,21 @@ public class UserService {
         if (userRepository.existsByUsername(user.getUsername())) {
             throw new RuntimeException("User exists");
         }
-        return save(user);
+        return userRepository.save(user);
+    }
+
+    public MessageDTO subscribeTo(String username){
+        User self = getByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        if (self.getUsername().equals(username)){
+            throw new RuntimeException("Cant subscribe to yourself");
+        }
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        if (self.getSubscriptions().contains(user)){
+            throw new RuntimeException("Already subscribed to "+username);
+        }
+        self.getSubscriptions().add(user);
+        userRepository.save(self);
+        return new MessageDTO("Subscribed to "+username);
     }
 
     public User getByUsername(String username) {

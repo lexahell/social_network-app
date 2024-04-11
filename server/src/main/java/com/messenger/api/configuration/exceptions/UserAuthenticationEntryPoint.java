@@ -1,7 +1,7 @@
 package com.messenger.api.configuration.exceptions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.messenger.api.model.DTO.ErrorDTO;
+import com.messenger.api.model.DTO.MessageDTO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,6 +19,6 @@ public class UserAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        OBJECT_MAPPER.writeValue(response.getOutputStream(), new ErrorDTO("Authentication error"));
+        OBJECT_MAPPER.writeValue(response.getOutputStream(), new MessageDTO("Authentication error"));
     }
 }

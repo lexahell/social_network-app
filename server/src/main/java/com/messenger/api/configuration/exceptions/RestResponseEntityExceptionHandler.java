@@ -1,6 +1,6 @@
 package com.messenger.api.configuration.exceptions;
 
-import com.messenger.api.model.DTO.ErrorDTO;
+import com.messenger.api.model.DTO.MessageDTO;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +15,6 @@ public class RestResponseEntityExceptionHandler
 
     @ExceptionHandler(value = { RuntimeException.class })
     protected ResponseEntity<Object> handleConflict(RuntimeException ex, WebRequest request) {
-        return handleExceptionInternal(ex, new ErrorDTO(ex.getMessage()), new HttpHeaders(), HttpStatus.CONFLICT, request);
+        return handleExceptionInternal(ex, new MessageDTO(ex.getMessage()), new HttpHeaders(), HttpStatus.CONFLICT, request);
     }
 }

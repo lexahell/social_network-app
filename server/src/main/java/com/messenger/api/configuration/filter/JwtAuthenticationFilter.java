@@ -49,8 +49,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         String jwt = wsPath.matches(request) ? request.getParameter("token") : authHeader.substring(BEARER_PREFIX.length());
-        System.out.println(jwt);
         String username;
+
         try {
             username = jwtService.extractUserName(jwt);
         }catch (JwtException e){
