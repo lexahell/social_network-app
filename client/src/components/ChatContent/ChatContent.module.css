@@ -29,3 +29,48 @@
 .userStatus > span {
     color: #757476;
 }
+.typingStatus {
+    display: flex;
+    align-items: flex-end;
+    color: #757476;
+}
+.typingLoader {
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 2px 0;
+}
+.typingLoaderDot {
+    float: left;
+    width: 4px;
+    height: 4px;
+    margin: 0 1px;
+    background: #757476;
+    border-radius: 50%;
+    opacity: 0;
+    animation: loadingFade 1s infinite;
+}
+
+.typingLoaderDot:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.typingLoaderDot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typingLoaderDot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes loadingFade {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.8;
+    }
+    100% {
+        opacity: 0;
+    }
+}

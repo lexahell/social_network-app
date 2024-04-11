@@ -18,6 +18,9 @@ function App() {
   })
   const {authType, nickname, username} = useAppSelector(state => state.authReducer)
   const dispatch = useAppDispatch()
+  const disconnectUser = () => {
+    WebSocketService.onLogout(username)
+  }
   useEffect(() => {
     if (localStorage.getItem("token") && data) {
       if(authType === AuthType.NOT_AUTHED) {
@@ -33,6 +36,7 @@ function App() {
       WebSocketService.stompClient = Stomp.over(socket)
       WebSocketService.stompClient.connect({}, () => WebSocketService.onConnected(username),
           WebSocketService.onError)
+      window.addEventListener("beforeunload", disconnectUser)
       dispatch(setUserStatus(UserStatus.ONLINE))
     }
     return () => {
@@ -40,6 +44,7 @@ function App() {
         WebSocketService.stompClient.disconnect(() => {
           console.log("Disconnected from WebSocket")
         })
+        window.removeEventListener("beforeunload", disconnectUser)
       }
     }
   }, [nickname, username]);

@@ -4,11 +4,13 @@ import styles from './ChatsList.module.css'
 import ChatsListItem from "../ChatsListItem/ChatsListItem.tsx";
 import {User} from "../../types/User.ts";
 import {useAppSelector} from "../../hooks/redux.ts";
+import {UserTypingStatus} from "../../types/UserTypingStatus.ts";
 interface ChatsListProps {
     users: User[];
 }
 const ChatsList : React.FC<ChatsListProps> = ({users}) => {
     const {username} = useAppSelector(state => state.authReducer)
+    const {userTypingStatusInfo} = useAppSelector(state => state.messagesReducer)
     const filterFetchedUsers = (users: User[]) => {
         return users.filter(user => user.username !== username)
     }
@@ -25,6 +27,8 @@ const ChatsList : React.FC<ChatsListProps> = ({users}) => {
                             username={user.username}
                             status={user.status}
                             key={user.username}
+                            isUserTyping={userTypingStatusInfo.senderUsername === user.username
+                                && userTypingStatusInfo.userTypingStatus === UserTypingStatus.TYPING}
                         />
                     ))
                 }
