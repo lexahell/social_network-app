@@ -29,6 +29,8 @@ public class UserService {
         storedUser.setStatus(Status.OFFLINE);
         userRepository.save(storedUser);
     }
+
+
     public User create(User user) {
         if (userRepository.existsByUsername(user.getUsername())) {
             throw new RuntimeException("User exists");

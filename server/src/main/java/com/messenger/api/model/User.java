@@ -74,6 +74,7 @@ public class User implements UserDetails {
     public Role getRole(){
         return role;
     }
+
     public Status getStatus() { return status; }
 
     public Set<User> getSubscriptions() {

@@ -21,19 +21,19 @@ const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
-        setNickname: (state = initialState, action: PayloadAction<string>) => {
+        setNickname: (state, action: PayloadAction<string>) => {
             state.nickname = action.payload
         },
-        setUsername: (state = initialState, action: PayloadAction<string>) => {
+        setUsername: (state, action: PayloadAction<string>) => {
             state.username = action.payload
         },
-        setUserStatus: (state = initialState, action: PayloadAction<UserStatus>) => {
+        setUserStatus: (state, action: PayloadAction<UserStatus>) => {
             state.userStatus = action.payload
         },
-        setAuthType: (state = initialState, action: PayloadAction<AuthType>) => {
+        setAuthType: (state, action: PayloadAction<AuthType>) => {
             state.authType = action.payload
         },
-        setIsAuthNotificationShown: (state = initialState, action: PayloadAction<boolean>) => {
+        setIsAuthNotificationShown: (state, action: PayloadAction<boolean>) => {
             state.isAuthNotificationShown = action.payload
         }
     }

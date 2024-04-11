@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './ChatContent.module.css'
 import {Avatar, Badge, styled} from "@mui/material";
 import {UserStatus} from "../../types/UserStatus.ts";
@@ -10,6 +10,7 @@ import {addMessage, setHistoryOfChat, setLastReceivedMessage} from "../../store/
 import Loader from "../UI/Loader/Loader.tsx";
 import {WebSocketService} from "../../services/WebSocketService.ts";
 import {Message} from "../../types/Message.ts";
+import {UserTypingStatus} from "../../types/UserTypingStatus.ts";
 const StyledBadge = styled(Badge)(() => ({
     '& .MuiBadge-badge': {
         backgroundColor: '#44b700',
@@ -18,8 +19,9 @@ const StyledBadge = styled(Badge)(() => ({
     }
 }));
 const ChatContent : React.FC = () => {
-    const {recipientNickname, recipientAvatar, status, recipientUsername} = useAppSelector(state => state.chatReducer)
+    const {recipientNickname, recipientAvatar, recipientStatus, recipientUsername} = useAppSelector(state => state.chatReducer)
     const {username} = useAppSelector(state => state.authReducer)
+    const [isRecipientTyping, setIsRecipientTyping] = useState<boolean>(false)
     const {data, isLoading} = useGetChatHistoryQuery({
         senderUsername: username,
         recipientUsername,
@@ -28,7 +30,7 @@ const ChatContent : React.FC = () => {
         skip: !localStorage.getItem("token"),
         refetchOnFocus: true
     })
-    const {messages, lastReceivedMessage} = useAppSelector(state => state.messagesReducer)
+    const {messages, lastReceivedMessage, userTypingStatusInfo} = useAppSelector(state => state.messagesReducer)
     const dispatch = useAppDispatch()
     WebSocketService.setDispatch(dispatch)
     useEffect(() => {
@@ -36,12 +38,20 @@ const ChatContent : React.FC = () => {
             dispatch(setHistoryOfChat(data))
         }
     }, [data]);
+
     useEffect(() => {
         if (lastReceivedMessage.senderUsername === recipientUsername) {
             dispatch(addMessage(lastReceivedMessage))
             dispatch(setLastReceivedMessage({} as Message))
         }
     }, [lastReceivedMessage]);
+
+    useEffect(() => {
+        if (userTypingStatusInfo.senderUsername === recipientUsername) {
+            setIsRecipientTyping(userTypingStatusInfo.userTypingStatus === UserTypingStatus.TYPING)
+        }
+    }, [userTypingStatusInfo])
+
     return (
         <div className={styles.chatContent}>
             {
@@ -51,7 +61,7 @@ const ChatContent : React.FC = () => {
                         <div className={styles.chatInfo}>
                             <div className={styles.avatar}>
                                 {
-                                    status === UserStatus.ONLINE
+                                    recipientStatus === UserStatus.ONLINE
                                         ? <StyledBadge
                                             overlap="circular"
                                             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
@@ -67,7 +77,18 @@ const ChatContent : React.FC = () => {
                                     <span>{recipientNickname}</span>
                                 </div>
                                 <div className={styles.userStatus}>
-                                    <span>{status === UserStatus.OFFLINE ? "offline" : "online"}</span>
+                                    {
+                                        isRecipientTyping
+                                            ? <div className={styles.typingStatus}>
+                                                <span>{"is typing"}</span>
+                                                <div className={styles.typingLoader}>
+                                                    <div className={styles.typingLoaderDot}></div>
+                                                    <div className={styles.typingLoaderDot}></div>
+                                                    <div className={styles.typingLoaderDot}></div>
+                                                </div>
+                                            </div>
+                                            : <span>{recipientStatus === UserStatus.OFFLINE ? "offline" : "online"}</span>
+                                    }
                                 </div>
                             </div>
                         </div>
