@@ -30,7 +30,16 @@ dependencies {
 }
 ```
 
-Для запуска приложения необходимо ввести:
+Для запуска приложения необходимо: 
+- установить java 17;
+- установить docker и запустить его.
+
+  
+Далее ввести команды:
 ```
+cd social_network-app/
+cd server
+./gradlew jar
+cd ..
 docker-compose up
 ```
