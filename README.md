@@ -32,5 +32,5 @@ dependencies {
 
 Для запуска приложения необходимо ввести:
 ```
-docker-ccompose up
+docker-compose up
 ```
