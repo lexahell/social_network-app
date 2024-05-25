@@ -52,6 +52,38 @@ public class UserService {
         return new MessageDTO("Subscribed to "+username);
     }
 
+    public MessageDTO unsubscribeFrom(String username){
+        User self = getByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        if (self.getUsername().equals(username)){
+            throw new RuntimeException("Cant unsubscribe from yourself");
+        }
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        if (!self.getSubscriptions().contains(user)){
+            throw new RuntimeException("Not subscribed to "+username);
+        }
+        self.getSubscriptions().remove(user);
+        userRepository.save(self);
+        return new MessageDTO("Unsubscribed from "+username);
+    }
+
+    public List<UserDataDTO> getSubscriptions(String username){
+        List<User> users = userRepository.getUserSubscriptions(userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found")).getId());
+        return users.stream().map(UserDataDTO::new).collect(Collectors.toList());
+    }
+
+    public List<UserDataDTO> getFriends(String username){
+        List<User> users = userRepository.getUserFriends(userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found")).getId());
+        return users.stream().map(UserDataDTO::new).collect(Collectors.toList());
+    }
+
+    public List<UserDataDTO> getSubscribers(String username){
+        List<User> users = userRepository.getUserSubscribers(userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found")).getId());
+        return users.stream().map(UserDataDTO::new).collect(Collectors.toList());
+    }
+
     public User getByUsername(String username) {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
