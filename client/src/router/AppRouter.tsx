@@ -12,7 +12,7 @@ const AppRouter: React.FC = () => {
     const {authType} = useAppSelector(state => state.authReducer)
     return (
         <Routes>
-            <Route path="/*" element={<Navigate to={authType !== AuthType.NOT_AUTHED ? localStorage.getItem("lastVisitedPage") ?? '/' : '/login'} />}/>
+            <Route path="/*" element={<Navigate to={authType !== AuthType.NOT_AUTHED ? '/' : '/login'} />} />
             {PRIVATE_ROUTES.map((privateRoute) => (
                 <Route
                     key={privateRoute.path}
@@ -24,7 +24,7 @@ const AppRouter: React.FC = () => {
                 <Route
                     key={publicRoute.path}
                     path={publicRoute.path}
-                    element={authType === AuthType.NOT_AUTHED ? publicRoute.element : <Navigate to={localStorage.getItem("lastVisitedPage") ?? '/'}/>}
+                    element={authType === AuthType.NOT_AUTHED ? publicRoute.element : <Navigate to={'/'}/>}
                 />
             ))}
         </Routes>

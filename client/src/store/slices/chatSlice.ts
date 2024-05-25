@@ -6,14 +6,14 @@ interface ChatState {
   recipientAvatar: string;
   recipientNickname: string;
   recipientUsername: string;
-  status: UserStatus;
+  recipientStatus: UserStatus;
 }
 const initialState: ChatState = {
   isChatSelected: false,
   recipientAvatar: '',
   recipientNickname: '',
   recipientUsername: '',
-  status: UserStatus.OFFLINE
+  recipientStatus: UserStatus.OFFLINE
 };
 const chatSlice = createSlice({
   name: 'chat',
@@ -31,9 +31,10 @@ const chatSlice = createSlice({
     setRecipientUsername: (state = initialState, action: PayloadAction<string>) => {
       state.recipientUsername = action.payload
     },
-    setStatus: (state, action: PayloadAction<UserStatus>) => {
-      state.status = action.payload;
+    setRecipientStatus: (state, action: PayloadAction<UserStatus>) => {
+      state.recipientStatus = action.payload;
     },
+
   },
 });
 export const {
@@ -41,6 +42,6 @@ export const {
   setRecipientAvatar,
   setRecipientNickname,
   setRecipientUsername,
-  setStatus
+  setRecipientStatus,
 } = chatSlice.actions;
 export default chatSlice.reducer;

@@ -12,10 +12,10 @@ const modalSlice = createSlice({
     name: 'modal',
     initialState,
     reducers: {
-        setModalVisibility: (state = initialState, action: PayloadAction<boolean>) => {
+        setModalVisibility: (state, action: PayloadAction<boolean>) => {
             state.isVisible = action.payload
         },
-        setModalContent: (state = initialState, action: PayloadAction<React.ReactNode>) => {
+        setModalContent: (state, action: PayloadAction<React.ReactNode>) => {
             state.content = action.payload
         }
     }

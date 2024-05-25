@@ -7,6 +7,7 @@ import EmojiPicker from "../../EmojiPicker/EmojiPicker.tsx";
 import {useAppDispatch, useAppSelector} from "../../../hooks/redux.ts";
 import {addMessage} from "../../../store/slices/messageSlice.ts";
 import {WebSocketService} from "../../../services/WebSocketService.ts";
+import {useTyping} from "../../../hooks/useTyping.ts";
 
 const ChatInput: React.FC = () => {
     const [message, setMessage] = useState<string>("")
@@ -16,6 +17,8 @@ const ChatInput: React.FC = () => {
     const dispatch = useAppDispatch()
     const {username} = useAppSelector(state => state.authReducer)
     const {recipientUsername} = useAppSelector(state => state.chatReducer)
+    useTyping(message, recipientUsername, username)
+
     const registerWindowClick = (e: MouseEvent) => {
         if (emojiPickerRef.current) {
             if (e.clientX < emojiPickerRef.current.getBoundingClientRect().left
@@ -26,16 +29,20 @@ const ChatInput: React.FC = () => {
             }
         }
     }
+
     const toggleEmojiPicker: MouseEventHandler<HTMLDivElement> = (e) => {
         e.stopPropagation()
         setIsShownEmojiPicker(!isShownEmojiPicker)
     }
+
     const handleInput = (e: ChangeEvent<HTMLTextAreaElement>) => {
         setMessage(e.currentTarget.value)
     }
+
     const handleEmojiClick = (emoji: string) => {
         setMessage(message + emoji)
     }
+
     const sendMessage = () => {
         const chatMessage = {
             content: message.trim(),
@@ -47,6 +54,7 @@ const ChatInput: React.FC = () => {
         dispatch(addMessage(chatMessage))
         setMessage("")
     }
+
     const handleKeyDownClick: KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
         if (e.shiftKey && e.key === "Enter") {
             e.preventDefault()
@@ -57,14 +65,15 @@ const ChatInput: React.FC = () => {
                 sendMessage()
             }
         }
-
     }
+
     useEffect(() => {
         if (isShownEmojiPicker) {
             window.addEventListener("click", registerWindowClick)
         }
         return () => window.removeEventListener("click", registerWindowClick)
     }, [isShownEmojiPicker])
+
     return (
         <div className={styles.chatInput}>
             <form className={styles.chatInputForm}>
