@@ -1,4 +1,4 @@
-.foundUserItemContainer {
+.userItemContainer {
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -16,7 +16,7 @@
     height: 60px;
 }
 
-.foundUserTextContainer {
+.userTextContainer {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -25,7 +25,7 @@
 .onlineStatus {
     color: #757476;
 }
-.foundUserName {
+.userName {
     color: white;
     font-size: 20px;
 }
@@ -41,16 +41,17 @@
     margin-right: 10px;
     justify-content: center;
     align-items: center;
+    column-gap: 0.5rem;
 }
-.viewProfileButton {
-    user-select: none;
+
+.friendRequestButton, .viewProfileButton {
     cursor: pointer;
-    width: 100px;
     height: 50px;
     border: none;
     color: white;
     font-size: 14px;
     border-radius: 10px;
+    padding: .5rem;
     background-color: var(--color-button);
 }
 .SubscribeBtn:hover {
@@ -59,7 +60,32 @@
 .SubscribeBtn:active {
     opacity: 0.7;
 }
-.foundUserItemInfo {
+.userItemInfo {
     display: flex;
     gap: 20px;
+}
+
+.messageButton {
+    transition: 0.2s;
+    user-select: none;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    border: none;
+    color: var(--color-button);
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px;
+    stroke: var(--color-button);
+    background-color: rgba(38, 38, 38);
+}
+
+.messageButton:hover {
+    background-color: rgba(38, 38, 128, 0.5);
+}
+
+.messageButton svg {
+    margin-top: 5px;
+    width: 30px;
+    height: 40px;
 }

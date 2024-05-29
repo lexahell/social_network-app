@@ -11,7 +11,6 @@ interface ProfileHeaderProps {
   status?: UserStatus;
   isOtherUserProfile: boolean;
   isThisUserFriend: boolean;
-  isThisUserSubscriber: boolean;
   isSubscribed: boolean;
 }
 
@@ -31,7 +30,6 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
     status,
     isOtherUserProfile,
     isThisUserFriend,
-    isThisUserSubscriber,
     isSubscribed
 }) => {
   return (
@@ -62,7 +60,6 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
             username={username}
             isOtherUserProfile={isOtherUserProfile}
             isFriend={isThisUserFriend}
-            isSubscriber={isThisUserSubscriber}
             isSubscribed={isSubscribed}
         />
       </div>

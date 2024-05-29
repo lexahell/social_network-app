@@ -13,7 +13,7 @@ const ProfilePage: React.FC = () => {
     const location = useLocation()
     const dispatch = useAppDispatch()
     const {nickname, username} = useAppSelector(state => state.authReducer)
-    const {profileNickname, isOtherUserProfile, isThisUserSubscriber, isThisUserFriend, userStatus, isSubscribed, profileUsername} = useAppSelector(state => state.profileReducer)
+    const {profileNickname, isOtherUserProfile, isThisUserFriend, userStatus, isSubscribed, profileUsername} = useAppSelector(state => state.profileReducer)
     useEffect(() => {
         if (location.pathname.split("/")[2] === username) {
             dispatch(setProfileUsername(username))
@@ -36,7 +36,6 @@ const ProfilePage: React.FC = () => {
           pageCover={pageCover}
           isOtherUserProfile={isOtherUserProfile}
           isThisUserFriend={isThisUserFriend}
-          isThisUserSubscriber={isThisUserSubscriber}
           isSubscribed={isSubscribed}
         />
           {

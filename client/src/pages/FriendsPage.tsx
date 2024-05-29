@@ -1,4 +1,4 @@
-import React, {FormEvent, useEffect, useState} from 'react';
+import React, {FormEvent, useCallback, useEffect, useState} from 'react';
 import Layout from '../components/Layout/Layout.tsx';
 import styles from '../pagesStyles/FriendsPage.module.css';
 import Friends from '../components/Friends/Friends.tsx';
@@ -59,17 +59,17 @@ const FriendsPage: React.FC = () => {
         setSearchValue(e.currentTarget.value)
     }
 
-    const isFriend = (user: User): boolean => {
+    const isFriend = useCallback((user: User): boolean => {
         return (friends as User[]).find((friend) => friend.username === user.username) !== undefined
-    }
+    }, [friends])
 
-    const isSubscriber = (user: User): boolean => {
+    const isSubscriber = useCallback((user: User): boolean => {
         return (subscribers as User[]).find((subscriber) => subscriber.username === user.username) !== undefined
-    }
+    }, [subscribers])
 
-    const isSubscribed = (user: User): boolean => {
-        return (subscriptions as User[]).find((subscription) => subscription.username === user.username) !== undefined
-    }
+    const isSubscribed = useCallback((username: string): boolean => {
+        return (subscriptions as User[]).find((subscription) => subscription.username === username) !== undefined
+    }, [subscriptions])
 
     useEffect(() => {
         dispatch(setIsAuthNotificationShown(true))
@@ -121,12 +121,27 @@ const FriendsPage: React.FC = () => {
                             foundUsers={foundUsers}
                             isFriend={isFriend}
                             isSubscriber={isSubscriber}
-                            isSubscribed={}
+                            isSubscribed={isSubscribed}
                         />
                         : <>
-                            <Friends friends={friends}/>
-                            <Subscriptions subscriptions={subscriptions}/>
-                            <Subscribers subscribers={subscribers}/>
+                            <Friends
+                                friends={friends}
+                                isFriend={isFriend}
+                                isSubscriber={isSubscriber}
+                                isSubscribed={isSubscribed}
+                            />
+                            <Subscriptions
+                                subscriptions={subscriptions}
+                                isFriend={isFriend}
+                                isSubscriber={isSubscriber}
+                                isSubscribed={isSubscribed}
+                            />
+                            <Subscribers
+                                subscribers={subscribers}
+                                isFriend={isFriend}
+                                isSubscriber={isSubscriber}
+                                isSubscribed={isSubscribed}
+                            />
                         </>
                 }
           </Layout>

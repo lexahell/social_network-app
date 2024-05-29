@@ -5,7 +5,8 @@
   width: 50%;
   flex-direction: column;
 }
-.emptyFriendsListMes, .errorMes {
+
+.title {
   margin: 0 auto;
-  font-size: 20px;
+  font-size: 30px;
 }

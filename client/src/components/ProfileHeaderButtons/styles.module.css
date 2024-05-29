@@ -4,6 +4,9 @@
     margin-bottom: 10px;
 }
 .subscribeButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transition: 0.2s;
     user-select: none;
     cursor: pointer;

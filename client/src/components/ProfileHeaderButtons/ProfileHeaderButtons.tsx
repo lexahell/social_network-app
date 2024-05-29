@@ -1,25 +1,36 @@
-import {FC} from 'react';
+import {FC, useState} from 'react';
 import styles from "./styles.module.css"
 import {BsThreeDots} from "react-icons/bs";
 import {BiMessageDetail} from "react-icons/bi";
-import {useSubscribeMutation} from "../../services/socialAppService.ts";
+import {useSubscribeMutation, useUnsubscribeMutation} from "../../services/socialAppService.ts";
+import {CircularProgress} from "@mui/material";
+
 
 interface ProfileHeaderButtonsProps {
     username: string;
     isOtherUserProfile: boolean;
     isFriend: boolean;
-    isSubscriber: boolean;
     isSubscribed: boolean;
 }
 
-const ProfileHeaderButtons: FC<ProfileHeaderButtonsProps> = ({username, isOtherUserProfile, isFriend, isSubscriber, isSubscribed}) => {
-    const [subscribe] = useSubscribeMutation()
+const ProfileHeaderButtons: FC<ProfileHeaderButtonsProps> = ({username, isOtherUserProfile, isFriend, isSubscribed}) => {
+    const [subscribe, {isLoading: isSubscriptionLoading}] = useSubscribeMutation()
+    const [unsubscribe, {isLoading: isUnsubscriptionLoading}] = useUnsubscribeMutation()
+    const [isUserSubscribed, setIsUserSubscribed] = useState<boolean>(isSubscribed || isFriend)
+    const confirmClick = async () => {
+        if (isSubscribed || isFriend) {
+            await unsubscribe({
+                username,
+                token: localStorage.getItem("token") ?? ""
+            })
+        } else {
+            await subscribe({
+                username,
+                token: localStorage.getItem("token") ?? ""
+            })
+        }
 
-    const confirmSubscribe = () => {
-        subscribe({
-            username,
-            token: localStorage.getItem("token") ?? ""
-        })
+        setIsUserSubscribed(!isUserSubscribed)
     }
 
     if (!isOtherUserProfile) {
@@ -30,11 +41,18 @@ const ProfileHeaderButtons: FC<ProfileHeaderButtonsProps> = ({username, isOtherU
         )
     }
 
+
     return (
         <div className={styles.profileButtons}>
-            <button className={styles.subscribeButton}>{isSubscribed ? 'Unsubscribe' : 'Subscribe'}</button>
+            <button className={styles.subscribeButton} onClick={confirmClick} disabled={isSubscriptionLoading || isUnsubscriptionLoading}>
+                {
+                    isSubscriptionLoading || isUnsubscriptionLoading
+                        ? <CircularProgress size={25} color={"inherit"}/>
+                        : isUserSubscribed ? 'Unsubscribe' : 'Subscribe'
+                }
+            </button>
             {
-                isFriend && <button className={styles.squareButton} onClick={confirmSubscribe}>
+                isFriend && <button className={styles.squareButton}>
                     <BiMessageDetail/>
                 </button>
             }
