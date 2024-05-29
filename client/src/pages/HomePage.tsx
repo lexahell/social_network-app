@@ -1,9 +1,15 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Layout from '../components/Layout/Layout.tsx';
 import Posts from '../components/Posts/Posts.tsx';
 import PostsItem from '../components/PostItem/PostsItem.tsx';
 import styles from '../pagesStyles/HomePage.module.css';
+import {setIsAuthNotificationShown} from "../store/slices/authSlice.ts";
+import {useAppDispatch} from "../hooks/redux.ts";
 const HomePage: React.FC = () => {
+    const dispatch = useAppDispatch()
+    useEffect(() => {
+        dispatch(setIsAuthNotificationShown(true))
+    }, []);
   return (
     <Layout>
       <h1 className={styles.pageTitle}>Posts</h1>

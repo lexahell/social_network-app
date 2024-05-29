@@ -26,7 +26,7 @@ export const PUBLIC_ROUTES: IRoute[] = [
 ];
 export const PRIVATE_ROUTES: IRoute[] = [
   { path: RouteNames.HOME, element: <HomePage /> },
-  { path: RouteNames.PROFILE, element: <ProfilePage /> },
+  { path: `${RouteNames.PROFILE}/:username`, element: <ProfilePage /> },
   { path: RouteNames.DIALOGS, element: <DialogsPage /> },
   { path: RouteNames.FRIENDS, element: <FriendsPage /> },
 ];

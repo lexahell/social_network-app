@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
 import styles from './Layout.module.css'
 import Header from "../Header/Header.tsx";
-import {useLocation} from "react-router-dom";
 import {toast, Toaster} from "sonner";
 import {useAppDispatch, useAppSelector} from "../../hooks/redux.ts";
 import {AuthType} from "../../types/AuthType.ts";
@@ -12,7 +11,6 @@ interface LayoutProps {
 }
 
 const Layout : React.FC<LayoutProps> = ({children}) => {
-    const location = useLocation()
     const {authType, isAuthNotificationShown} = useAppSelector(state => state.authReducer)
     const dispatch = useAppDispatch()
     useEffect(() => {
@@ -25,9 +23,6 @@ const Layout : React.FC<LayoutProps> = ({children}) => {
             dispatch(setIsAuthNotificationShown(true))
         }
     }, [authType, isAuthNotificationShown]);
-    useEffect(() => {
-        localStorage.setItem("lastVisitedPage", location.pathname)
-    }, []);
     return (
         <div className={styles.layout}>
             <Header/>

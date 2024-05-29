@@ -1,41 +1,39 @@
 import React from 'react';
 import styles from './FriendItem.module.css';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { RouteNames } from '../../router/routes.tsx';
+import {Avatar} from "@mui/material";
+import {useAppDispatch} from "../../hooks/redux.ts";
+import {setIsOtherUserProfile, setProfileNickname, setProfileUsername} from "../../store/slices/profileSlice.ts";
+import {useNavigate} from "react-router-dom";
+import {RouteNames} from "../../router/routes.tsx";
 
 const FriendItem: React.FC = () => {
-  const [subscriptionStatus, setSubscriptionStatus] = useState<boolean>(true);
-  const changeSubscriptionStatus = () => {
-    setSubscriptionStatus(!subscriptionStatus);
-  };
+    const dispatch = useAppDispatch()
+    const navigate = useNavigate()
+
+    const redirectToProfile = (username: string, nickname: string) => {
+        dispatch(setProfileUsername(username))
+        dispatch(setProfileNickname(nickname))
+        dispatch(setIsOtherUserProfile(true))
+        navigate(`${RouteNames.PROFILE}/${username}`)
+    }
+
   return (
     <div className={styles.friendItemContainer}>
       <div className={styles.friendItemInfo}>
         <div className={styles.avatarContainer}>
-          <img
-            src={
-              'https://masterpiecer-images.s3.yandex.net/633ff90a78fd11ee90cb1e5d9776cfa6:upscaled'
-            }
-            alt='avatar'
-          />
-          <div className={styles.onlineStatus}></div>
+          <Avatar alt={'Travis Skot'} src={'/broken-image.jpg'} sx={{width: 70, height: 70}}/>
         </div>
         <div className={styles.friendTextContainer}>
           <div className={styles.friendName}>Travis Skot</div>
-          <div className={styles.writeMessageLinkContainer}>
-            {/* пока ведет на главную, потом будет вести к переписке */}
-            <Link to={RouteNames.HOME}>Write message</Link>
+          <div className={styles.onlineStatus}>
+              <span>offline</span>
           </div>
         </div>
       </div>
       <div className={styles.SubscribeBtnContainer}>
-        <button
-          onClick={changeSubscriptionStatus}
-          className={styles.SubscribeBtn}
-        >
-          {subscriptionStatus ? 'Unsubscribe' : 'Subscribe'}
-        </button>
+          <button className={styles.viewProfileButton} onClick={() => redirectToProfile('Travis Scot', 'Travis Scot')}>
+              View profile
+          </button>
       </div>
     </div>
   );

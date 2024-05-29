@@ -1,19 +1,38 @@
 import React from 'react';
-// import styles from './PostItem.module.css';
 import styles from './ProfileHeader.module.css';
-import { BiMessageDetail } from 'react-icons/bi';
-import { BsThreeDots } from 'react-icons/bs';
+import {UserStatus} from "../../types/UserStatus.ts";
+import {Avatar, Badge, styled} from "@mui/material";
+import ProfileHeaderButtons from "../ProfileHeaderButtons/ProfileHeaderButtons.tsx";
 interface ProfileHeaderProps {
   avatar?: string;
-  nickName?: string;
+  nickname?: string;
+  username: string;
   pageCover?: string;
-  about?: string;
+  status?: UserStatus;
+  isOtherUserProfile: boolean;
+  isThisUserFriend: boolean;
+  isThisUserSubscriber: boolean;
+  isSubscribed: boolean;
 }
+
+const StyledBadge = styled(Badge)(() => ({
+  '& .MuiBadge-badge': {
+    backgroundColor: '#44b700',
+    color: '#44b700',
+    boxShadow: `0 0 0 1px rgba(23, 23, 23, .9)`,
+  }
+}));
+
 const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   avatar,
-  nickName,
+  nickname,
+    username,
   pageCover,
-  about,
+    status,
+    isOtherUserProfile,
+    isThisUserFriend,
+    isThisUserSubscriber,
+    isSubscribed
 }) => {
   return (
     <div className={styles.profileHeader}>
@@ -22,23 +41,30 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
       </div>
       <div className={styles.profileInfo}>
         <div className={styles.mainInfo}>
+          {
+            isOtherUserProfile
+                ? status === UserStatus.ONLINE
+                    ? <StyledBadge
+                        overlap="circular"
+                        anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}
+                        variant="dot"
+                    >
+                      <Avatar alt={nickname} src={avatar} sx={{width: 70, height: 70}}/>
+                    </StyledBadge>
+                    : <Avatar alt={nickname} src={avatar} sx={{width: 70, height: 70}}/>
+                : <Avatar alt={nickname} src={avatar} sx={{width: 70, height: 70}}/>
+          }
           <div>
-            <img src={avatar} alt='' className={styles.profileAvatar} />
-          </div>
-          <div>
-            <div className={styles.mainInfoNickName}>{nickName}</div>
-            <div className={styles.mainInfoAbout}>{about}</div>
+            <div className={styles.mainInfoNickName}>{nickname}</div>
           </div>
         </div>
-        <div className={styles.profileButtons}>
-          <button className={styles.subscribeButton}>Subsciribe</button>
-          <button className={styles.squareButton}>
-            <BiMessageDetail />
-          </button>
-          <button className={styles.squareButton}>
-            <BsThreeDots />
-          </button>
-        </div>
+        <ProfileHeaderButtons
+            username={username}
+            isOtherUserProfile={isOtherUserProfile}
+            isFriend={isThisUserFriend}
+            isSubscriber={isThisUserSubscriber}
+            isSubscribed={isSubscribed}
+        />
       </div>
     </div>
   );

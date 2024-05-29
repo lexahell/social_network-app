@@ -22,6 +22,9 @@
   justify-content: center;
   gap: 5px;
 }
+.onlineStatus {
+  color: #757476;
+}
 .friendName {
   color: white;
   font-size: 20px;
@@ -39,7 +42,7 @@
   justify-content: center;
   align-items: center;
 }
-.SubscribeBtn {
+.viewProfileButton {
   user-select: none;
   cursor: pointer;
   width: 100px;
@@ -59,14 +62,4 @@
 .friendItemInfo {
   display: flex;
   gap: 20px;
-}
-.onlineStatus {
-  position: absolute;
-  background-color: lime;
-  border-radius: 50%;
-  width: 15px;
-  height: 15px;
-  border: 3px solid rgb(38, 38, 38);
-  bottom: 8px;
-  right: 8px;
 }

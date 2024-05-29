@@ -16,6 +16,10 @@ h3 {
 h3:hover {
   color: var(--color-button);
 }
+
+.active {
+  border-bottom: 2px solid var(--color-button);
+}
 .logoImg img {
   width: 80px;
 }

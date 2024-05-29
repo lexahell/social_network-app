@@ -9,6 +9,8 @@ import {addMessage} from "../../../store/slices/messageSlice.ts";
 import {WebSocketService} from "../../../services/WebSocketService.ts";
 import {useTyping} from "../../../hooks/useTyping.ts";
 
+
+
 const ChatInput: React.FC = () => {
     const [message, setMessage] = useState<string>("")
     const [isShownEmojiPicker, setIsShownEmojiPicker] = useState<boolean>(false)
@@ -48,7 +50,7 @@ const ChatInput: React.FC = () => {
             content: message.trim(),
             senderUsername: username,
             recipientUsername,
-            timestamp: new Date()
+            timestamp: new Date().toISOString()
         }
         WebSocketService.sendMessage(chatMessage)
         dispatch(addMessage(chatMessage))

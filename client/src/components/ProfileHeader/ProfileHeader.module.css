@@ -22,7 +22,7 @@
 }
 .profileInfo {
   display: flex;
-  margin: 0px 30px;
+  margin: 5px 30px;
   justify-content: space-between;
   align-items: center;
 }
@@ -34,7 +34,7 @@
 }
 .mainInfo {
   position: relative;
-  bottom: 20px;
+  bottom: 10px;
   display: flex;
   gap: 20px;
   align-items: center;
@@ -48,50 +48,3 @@
   font-size: 15px;
 }
 
-.profileButtons {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-.subscribeButton {
-  transition: 0.2s;
-  user-select: none;
-  cursor: pointer;
-  width: 110px;
-  height: 50px;
-  border: none;
-  color: white;
-  font-size: 16px;
-  border-radius: 5px;
-  background-color: var(--color-button);
-}
-.subscribeButton:hover {
-  opacity: 0.9;
-}
-.subscribeButton:active {
-  opacity: 0.7;
-}
-.squareButton {
-  transition: 0.2s;
-  user-select: none;
-  cursor: pointer;
-  width: 50px;
-  height: 50px;
-  border: none;
-  color: var(--color-button);
-  font-size: 14px;
-  font-weight: bold;
-  border-radius: 5px;
-  stroke: var(--color-button);
-  background-color: rgba(38, 38, 38);
-}
-
-.squareButton:hover {
-  background-color: rgba(38, 38, 128, 0.5);
-}
-
-.squareButton svg {
-  margin-top: 5px;
-  width: 30px;
-  height: 40px;
-}

@@ -1,0 +1,65 @@
+.foundUserItemContainer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(38 38 38);
+    border-radius: 10px;
+    padding: 20px;
+}
+.avatarContainer {
+    position: relative;
+}
+
+.avatarContainer img {
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+}
+
+.foundUserTextContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+}
+.onlineStatus {
+    color: #757476;
+}
+.foundUserName {
+    color: white;
+    font-size: 20px;
+}
+
+.writeMessageLinkContainer a {
+    font-size: 14px;
+    color: var(--color-button);
+    text-decoration: none;
+    user-select: none;
+}
+.SubscribeBtnContainer {
+    display: flex;
+    margin-right: 10px;
+    justify-content: center;
+    align-items: center;
+}
+.viewProfileButton {
+    user-select: none;
+    cursor: pointer;
+    width: 100px;
+    height: 50px;
+    border: none;
+    color: white;
+    font-size: 14px;
+    border-radius: 10px;
+    background-color: var(--color-button);
+}
+.SubscribeBtn:hover {
+    opacity: 0.9;
+}
+.SubscribeBtn:active {
+    opacity: 0.7;
+}
+.foundUserItemInfo {
+    display: flex;
+    gap: 20px;
+}

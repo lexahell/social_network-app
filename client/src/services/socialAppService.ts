@@ -4,6 +4,7 @@ import {SignInRequestBody} from "../types/SignInRequestBody.ts";
 import {AuthResponse} from "../types/AuthResponse.ts";
 import {User} from "../types/User.ts";
 import {Message} from "../types/Message.ts";
+import {FriendsDTO} from "../types/FriendsDTO.ts";
 
 export const socialAppApi = createApi({
     reducerPath: "socialAppApi",
@@ -37,6 +38,51 @@ export const socialAppApi = createApi({
                 }
             })
         }),
+        subscribe: builder.mutation<string, FriendsDTO>({
+            query: (dto: FriendsDTO) => ({
+                url: `api/v1/user/subscribe/${dto.username}`,
+                method: "POST",
+                headers: {
+                    'Authorization': `Bearer ${dto.token}`
+                }
+            })
+        }),
+        unsubscribe: builder.mutation<string, FriendsDTO>({
+            query: (dto: FriendsDTO) => ({
+                url: `api/v1/user/unsubscribe/${dto.username}`,
+                method: "POST",
+                headers: {
+                    'Authorization': `Bearer ${dto.token}`
+                }
+            })
+        }),
+        getSubscribers: builder.query<User[], FriendsDTO>({
+            query: (dto: FriendsDTO) => ({
+                url: `api/v1/user/subscribers/${dto.username}`,
+                method: "GET",
+                headers: {
+                    'Authorization': `Bearer ${dto.token}`
+                }
+            })
+        }),
+        getFriends: builder.query<User[], FriendsDTO>({
+            query: (dto: FriendsDTO) => ({
+                url: `api/v1/user/friends/${dto.username}`,
+                method: "GET",
+                headers: {
+                    'Authorization': `Bearer ${dto.token}`
+                }
+            })
+        }),
+        getSubscriptions: builder.query<User[], FriendsDTO>({
+           query: (dto: FriendsDTO) => ({
+               url: `api/v1/user/subscriptions/${dto.username}`,
+               method: "GET",
+               headers: {
+                   'Authorization': `Bearer ${dto.token}`
+               }
+           })
+        }),
         getUserInfo: builder.query<User, string>({
             query: (token) => ({
                 url: "api/v1/user/my-info",
@@ -63,12 +109,17 @@ export const socialAppApi = createApi({
                     'Authorization': `Bearer ${token}`
                 }
             })
-        })
+        }),
     })
 })
 export const {
     useSignUpMutation,
     useSingInMutation,
+    useSubscribeMutation,
+    useUnsubscribeMutation,
+    useGetSubscribersQuery,
+    useGetSubscriptionsQuery,
+    useGetFriendsQuery,
     useGetUserInfoQuery,
     useGetAllUsersQuery,
     useGetChatHistoryQuery

@@ -1,0 +1,12 @@
+.subscriptions {
+    margin: 0 auto;
+    display: flex;
+    gap: 10px;
+    width: 50%;
+    flex-direction: column;
+}
+
+.title {
+    margin: 0 auto;
+    font-size: 30px;
+}

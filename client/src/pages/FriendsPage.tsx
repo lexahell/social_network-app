@@ -1,29 +1,135 @@
-import React from 'react';
+import React, {FormEvent, useEffect, useState} from 'react';
 import Layout from '../components/Layout/Layout.tsx';
 import styles from '../pagesStyles/FriendsPage.module.css';
-import FriendItem from '../components/FriendItem/FriendItem.tsx';
 import Friends from '../components/Friends/Friends.tsx';
 import Search from '../components/UI/Search/Search.tsx';
+import {
+    useGetAllUsersQuery,
+    useGetFriendsQuery,
+    useGetSubscribersQuery,
+    useGetSubscriptionsQuery
+} from "../services/socialAppService.ts";
+import {useAppDispatch, useAppSelector} from "../hooks/redux.ts";
+import Loader from "../components/UI/Loader/Loader.tsx";
+import {setIsAuthNotificationShown} from "../store/slices/authSlice.ts";
+import Subscriptions from "../components/Subscriptions/Subscriptions.tsx";
+import {useDebounce} from "../hooks/useDebounce.ts";
+import {User} from "../types/User.ts";
+import FoundUsers from "../components/FoundUsers/FoundUsers.tsx";
+import Subscribers from "../components/Subscribers/Subscribers.tsx";
 
 const FriendsPage: React.FC = () => {
+    const dispatch = useAppDispatch()
+    const {username} = useAppSelector(state => state.authReducer)
+    const [isLoading, setIsLoading] = useState<boolean>(true)
+    const [isFriendsListEmpty, setIsFriendsLisEmpty] = useState<boolean>(false)
+    const [searchValue, setSearchValue] = useState<string>("")
+    const [foundUsers, setFoundUsers] = useState<User[]>([])
+    const debouncedSearchValue = useDebounce<string>(searchValue, 500)
+    const {data: friends, isLoading: isFriendsLoading} = useGetFriendsQuery({
+        username,
+        token: localStorage.getItem("token") ?? ""
+    }, {
+        skip: !localStorage.getItem("token")
+    })
+
+    const {data: subscriptions, isLoading: isSubscriptionsLoading} = useGetSubscriptionsQuery({
+        username,
+        token: localStorage.getItem("token") ?? ""
+    }, {
+        skip: !localStorage.getItem("token")
+    })
+
+    const {data: subscribers, isLoading: isSubscribersLoading} = useGetSubscribersQuery({
+        username,
+        token: localStorage.getItem("token") ?? ""
+    }, {
+        skip: !localStorage.getItem("token")
+    })
+
+    const {data: allUsers, isLoading: isAllUsersLoading} = useGetAllUsersQuery(localStorage.getItem("token") ?? "", {
+        skip: !localStorage.getItem("token")
+    })
+
+    const filterAllUsers = (searchValue: string): User[] => {
+        return (allUsers as User[]).filter((user) => user.nickname.startsWith(searchValue) && user.username !== username)
+    }
+
+    const handleInput = (e: FormEvent<HTMLInputElement>) => {
+        setSearchValue(e.currentTarget.value)
+    }
+
+    const isFriend = (user: User): boolean => {
+        return (friends as User[]).find((friend) => friend.username === user.username) !== undefined
+    }
+
+    const isSubscriber = (user: User): boolean => {
+        return (subscribers as User[]).find((subscriber) => subscriber.username === user.username) !== undefined
+    }
+
+    const isSubscribed = (user: User): boolean => {
+        return (subscriptions as User[]).find((subscription) => subscription.username === user.username) !== undefined
+    }
+
+    useEffect(() => {
+        dispatch(setIsAuthNotificationShown(true))
+    }, []);
+
+
+    useEffect(() => {
+        if (!isFriendsLoading && !isSubscriptionsLoading && !isSubscriptionsLoading && !isAllUsersLoading) {
+            setIsLoading(false)
+        }
+    }, [isFriendsLoading, isSubscribersLoading, isSubscriptionsLoading, isAllUsersLoading]);
+
+    useEffect(() => {
+        if (friends === undefined && subscribers === undefined && subscriptions === undefined && foundUsers.length === 0) {
+            setIsFriendsLisEmpty(true)
+        } else if (friends !== undefined && friends.length === 0 && subscribers !== undefined && subscribers.length === 0 && subscriptions !== undefined && subscriptions.length === 0 && foundUsers.length === 0) {
+            setIsFriendsLisEmpty(true)
+        } else {
+            setIsFriendsLisEmpty(false)
+        }
+    }, [friends, subscribers, subscriptions, foundUsers])
+
+    useEffect(() => {
+        if (debouncedSearchValue.trim() === "") {
+            setFoundUsers([])
+        } else {
+            setFoundUsers(filterAllUsers(debouncedSearchValue))
+        }
+    }, [debouncedSearchValue]);
+
+
   return (
-    <Layout>
-      <h1 className={styles.pageTitle}>Friends</h1>
-      <div className={styles.searchContainer}>
-        <Search placeholder={'Search users'} />
-      </div>
-      <Friends>
-        <FriendItem />
-        <FriendItem />
-        <FriendItem />
-        <FriendItem />
-        <FriendItem />
-        <FriendItem />
-        <FriendItem />
-        <FriendItem />
-      </Friends>
-      {/* <h2 className={styles.}>All search</h2> */}
-    </Layout>
+        isLoading
+        ? <Loader size={55}/>
+          : <Layout>
+              <div className={styles.searchContainer}>
+                  <Search
+                      searchValue={searchValue}
+                      updateSearchValue={handleInput}
+                      placeholder={'Search users'}
+                  />
+              </div>
+                {
+                    isFriendsListEmpty && <span className={styles.emptyList}>You have no friends yet 🤪</span>
+                }
+                {
+                    foundUsers.length !== 0
+                        ? <FoundUsers
+                            foundUsers={foundUsers}
+                            isFriend={isFriend}
+                            isSubscriber={isSubscriber}
+                            isSubscribed={}
+                        />
+                        : <>
+                            <Friends friends={friends}/>
+                            <Subscriptions subscriptions={subscriptions}/>
+                            <Subscribers subscribers={subscribers}/>
+                        </>
+                }
+          </Layout>
   );
 };
 

@@ -1,9 +1,16 @@
-import React, {ChangeEventHandler, MouseEventHandler} from 'react';
+import {ChangeEventHandler, FC, MouseEventHandler} from 'react';
 import styles from './NewPost.module.css';
 import { BsThreeDots } from 'react-icons/bs';
 import { useState } from 'react';
 import { FaPlus } from 'react-icons/fa6';
-const NewPost: React.FC = () => {
+import {Avatar} from "@mui/material";
+
+interface NewPostProps {
+  nickname: string;
+  avatar: string;
+}
+
+const NewPost: FC<NewPostProps> = ({nickname, avatar}) => {
   const [value, setValue] = useState('');
 
   const handleClear: MouseEventHandler<HTMLButtonElement> = (e) => {
@@ -26,10 +33,7 @@ const NewPost: React.FC = () => {
       </div>
       <div className={styles.textareaContainer}>
         <div className={styles.miniAvatar}>
-          <img
-            src='https://masterpiecer-images.s3.yandex.net/633ff90a78fd11ee90cb1e5d9776cfa6:upscaled'
-            alt='mini-avatar'
-          />
+          <Avatar alt={nickname} src={avatar}/>
         </div>
 
         <textarea
