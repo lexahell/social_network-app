@@ -1,7 +1,9 @@
 package com.messenger.api.controller;
 
 import com.messenger.api.model.DTO.MessageDTO;
+import com.messenger.api.model.DTO.PostDto;
 import com.messenger.api.model.DTO.UserDataDTO;
+import com.messenger.api.model.Post;
 import com.messenger.api.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,12 @@ public class UserController {
     @GetMapping("/my-info")
     public ResponseEntity<UserDataDTO> myInfo() {
         return ResponseEntity.ok(userService.getMyInfo());
+    }
+
+    @PostMapping("/post")
+    public ResponseEntity<MessageDTO> createPost(@RequestBody PostDto postData) {
+
+        return ResponseEntity.ok(userService.createPost(postData));
     }
 
     @PostMapping("/subscribe/{username}")
@@ -46,9 +54,19 @@ public class UserController {
     @GetMapping("/all")
     public List<UserDataDTO> getAllUsers() { return userService.getAllUsers(); }
 
+    @GetMapping("/nick/{nickname}")
+    public ResponseEntity<List<UserDataDTO>> findByNickname(@PathVariable String nickname) {
+        return ResponseEntity.ok(userService.findByNickname(nickname));
+    }
+
     @GetMapping("/{username}")
     public ResponseEntity<UserDataDTO> getUserData(@PathVariable String username) {
         return ResponseEntity.ok(new UserDataDTO(userService.getByUsername(username)));
+    }
+
+    @GetMapping("/post/{username}")
+    public ResponseEntity<List<Post>> getUserPosts(@PathVariable String username) {
+        return ResponseEntity.ok(userService.getPosts(username));
     }
 
     public UserController(UserService userService){

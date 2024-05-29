@@ -49,6 +49,9 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> subscriptions;
 
+    @OneToMany(mappedBy = "author")
+    private Set<Post> posts;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
@@ -79,6 +82,10 @@ public class User implements UserDetails {
 
     public Set<User> getSubscriptions() {
         return subscriptions;
+    }
+
+    public Set<Post> getPosts(){
+        return posts;
     }
 
     @Override
@@ -125,6 +132,10 @@ public class User implements UserDetails {
 
     public void setSubscriptions(Set<User> subscriptions) {
         this.subscriptions = subscriptions;
+    }
+
+    public void setPosts(Set<Post> posts){
+        this.posts = posts;
     }
 
     public User() {}
