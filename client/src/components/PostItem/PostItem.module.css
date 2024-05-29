@@ -1,4 +1,7 @@
 .post {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
   background-color: rgb(38 38 38);
   padding: 20px;
   margin-bottom: 10px;
@@ -6,10 +9,16 @@
 }
 .postTitle {
   display: flex;
-  align-items: center;
+  align-items: start;
+  column-gap: 1rem;
 }
-.authorNameContainer {
-  margin-left: 1rem;
+.postInfoContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.createDate {
+  color: #757476;
 }
 .imgContainer img {
   border-radius: 50%;

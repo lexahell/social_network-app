@@ -5,6 +5,8 @@ import {AuthResponse} from "../types/AuthResponse.ts";
 import {User} from "../types/User.ts";
 import {Message} from "../types/Message.ts";
 import {FriendsDTO} from "../types/FriendsDTO.ts";
+import {Token} from "../types/Token.ts";
+import {Post} from "../types/Post.ts";
 
 export const socialAppApi = createApi({
     reducerPath: "socialAppApi",
@@ -51,6 +53,19 @@ export const socialAppApi = createApi({
             query: (dto: FriendsDTO) => ({
                 url: `api/v1/user/unsubscribe/${dto.username}`,
                 method: "POST",
+                headers: {
+                    'Authorization': `Bearer ${dto.token}`
+                }
+            })
+        }),
+        createPost: builder.mutation<string, Post & Token>({
+            query: (dto: Post & Token) => ({
+                url: "api/v1/user/post",
+                method: "POST",
+                body: {
+                    value: dto.value,
+                    timestamp: dto.timestamp
+                },
                 headers: {
                     'Authorization': `Bearer ${dto.token}`
                 }
@@ -110,6 +125,24 @@ export const socialAppApi = createApi({
                 }
             })
         }),
+        getUserInfoByUsername: builder.query<User, Pick<User, "username"> & Token>({
+            query: (dto: Pick<User, "username"> & Token) => ({
+                url: `api/v1/user/${dto.username}`,
+                method: "GET",
+                headers: {
+                    'Authorization': `Bearer ${dto.token}`
+                }
+            })
+        }),
+        getUserPosts: builder.query<Post[], Pick<User, "username"> & Token>({
+            query: (dto: Pick<User, "username"> & Token) => ({
+                url: `api/v1/user/post/${dto.username}`,
+                method: "GET",
+                headers: {
+                    'Authorization': `Bearer ${dto.token}`
+                }
+            })
+        })
     })
 })
 export const {
@@ -117,10 +150,13 @@ export const {
     useSingInMutation,
     useSubscribeMutation,
     useUnsubscribeMutation,
+    useCreatePostMutation,
     useGetSubscribersQuery,
     useGetSubscriptionsQuery,
     useGetFriendsQuery,
     useGetUserInfoQuery,
     useGetAllUsersQuery,
-    useGetChatHistoryQuery
+    useGetChatHistoryQuery,
+    useLazyGetUserInfoByUsernameQuery,
+    useLazyGetUserPostsQuery
 } = socialAppApi

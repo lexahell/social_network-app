@@ -77,7 +77,7 @@ const FriendsPage: React.FC = () => {
 
 
     useEffect(() => {
-        if (!isFriendsLoading && !isSubscriptionsLoading && !isSubscriptionsLoading && !isAllUsersLoading) {
+        if (!isFriendsLoading && !isSubscriptionsLoading && !isSubscribersLoading && !isAllUsersLoading) {
             setIsLoading(false)
         }
     }, [isFriendsLoading, isSubscribersLoading, isSubscriptionsLoading, isAllUsersLoading]);
@@ -123,7 +123,7 @@ const FriendsPage: React.FC = () => {
                             isSubscriber={isSubscriber}
                             isSubscribed={isSubscribed}
                         />
-                        : <>
+                        : <div className={styles.userTypes}>
                             <Friends
                                 friends={friends}
                                 isFriend={isFriend}
@@ -142,7 +142,7 @@ const FriendsPage: React.FC = () => {
                                 isSubscriber={isSubscriber}
                                 isSubscribed={isSubscribed}
                             />
-                        </>
+                        </div>
                 }
           </Layout>
   );

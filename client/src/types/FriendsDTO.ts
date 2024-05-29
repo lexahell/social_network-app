@@ -1,4 +1,5 @@
-export interface FriendsDTO {
+import {Token} from "./Token.ts";
+
+export interface FriendsDTO extends Token{
     username: string;
-    token: string;
 }

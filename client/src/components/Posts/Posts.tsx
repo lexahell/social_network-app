@@ -1,12 +1,24 @@
-import React from 'react';
+import {FC} from 'react';
 import styles from './Posts.module.css'
+import {Post} from "../../types/Post.ts";
+import PostsItem from "../PostItem/PostsItem.tsx";
 interface PostsProps {
-    children: React.ReactNode;
+    isOtherUserPosts: boolean;
+    posts: Post[]
 }
-const Posts : React.FC<PostsProps> = ({children}) => {
+const Posts : FC<PostsProps> = ({posts, isOtherUserPosts}) => {
     return (
         <div className={styles.posts}>
-            {children}
+            {posts.map((post, idx) => (
+                <PostsItem
+                    authorName={post.author as string}
+                    postBody={post.value}
+                    img={'/broken-image.jpg'}
+                    createDate={post.timestamp}
+                    isOtherUserPost={isOtherUserPosts}
+                    key={idx}
+                />
+            ))}
         </div>
     );
 };

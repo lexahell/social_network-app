@@ -20,7 +20,8 @@ import {useSubscribeMutation} from "../../services/socialAppService.ts";
 import {
     setIsChatSelected,
     setRecipientAvatar,
-    setRecipientNickname, setRecipientStatus,
+    setRecipientNickname,
+    setRecipientStatus,
     setRecipientUsername
 } from "../../store/slices/chatSlice.ts";
 
@@ -91,7 +92,7 @@ const UserCard: FC<UserCardProps> = ({user, isFriend, isSubscriber, isSubscribed
                 <div className={styles.userTextContainer}>
                     <div className={styles.userName}>{user.nickname}</div>
                     <div className={styles.onlineStatus}>
-                        <span>{user.status}</span>
+                        <span>{user.status === UserStatus.ONLINE ? "online" : "offline"}</span>
                     </div>
                 </div>
             </div>

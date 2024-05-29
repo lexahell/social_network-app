@@ -4,16 +4,30 @@ import {BsThreeDots} from "react-icons/bs";
 import {BiMessageDetail} from "react-icons/bi";
 import {useSubscribeMutation, useUnsubscribeMutation} from "../../services/socialAppService.ts";
 import {CircularProgress} from "@mui/material";
+import {
+    setIsChatSelected,
+    setRecipientAvatar,
+    setRecipientNickname, setRecipientStatus,
+    setRecipientUsername
+} from "../../store/slices/chatSlice.ts";
+import {RouteNames} from "../../router/routes.tsx";
+import {useAppDispatch} from "../../hooks/redux.ts";
+import {UserStatus} from "../../types/UserStatus.ts";
+import {useNavigate} from "react-router-dom";
 
 
 interface ProfileHeaderButtonsProps {
     username: string;
+    nickname: string;
+    userStatus: UserStatus;
     isOtherUserProfile: boolean;
     isFriend: boolean;
     isSubscribed: boolean;
 }
 
-const ProfileHeaderButtons: FC<ProfileHeaderButtonsProps> = ({username, isOtherUserProfile, isFriend, isSubscribed}) => {
+const ProfileHeaderButtons: FC<ProfileHeaderButtonsProps> = ({username, isOtherUserProfile, isFriend, isSubscribed, userStatus, nickname}) => {
+    const dispatch = useAppDispatch()
+    const navigate = useNavigate()
     const [subscribe, {isLoading: isSubscriptionLoading}] = useSubscribeMutation()
     const [unsubscribe, {isLoading: isUnsubscriptionLoading}] = useUnsubscribeMutation()
     const [isUserSubscribed, setIsUserSubscribed] = useState<boolean>(isSubscribed || isFriend)
@@ -31,6 +45,15 @@ const ProfileHeaderButtons: FC<ProfileHeaderButtonsProps> = ({username, isOtherU
         }
 
         setIsUserSubscribed(!isUserSubscribed)
+    }
+
+    const redirectToChat = () => {
+        dispatch(setIsChatSelected(true))
+        dispatch(setRecipientAvatar('/broken-image.jpg'))
+        dispatch(setRecipientNickname(nickname))
+        dispatch(setRecipientUsername(username))
+        dispatch(setRecipientStatus(userStatus))
+        navigate(RouteNames.DIALOGS)
     }
 
     if (!isOtherUserProfile) {
@@ -52,7 +75,7 @@ const ProfileHeaderButtons: FC<ProfileHeaderButtonsProps> = ({username, isOtherU
                 }
             </button>
             {
-                isFriend && <button className={styles.squareButton}>
+                isFriend && <button className={styles.squareButton} onClick={redirectToChat}>
                     <BiMessageDetail/>
                 </button>
             }

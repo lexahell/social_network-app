@@ -1,3 +1,7 @@
 .pageTitle {
     margin-top: 10px;
+    margin-bottom: .5rem;
+}
+.emptyPostsList {
+    font-size: 20px;
 }

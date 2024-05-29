@@ -4,24 +4,29 @@ import { BsThreeDots } from 'react-icons/bs';
 import { useState } from 'react';
 import { FaPlus } from 'react-icons/fa6';
 import {Avatar} from "@mui/material";
+import {Post} from "../../types/Post.ts";
 
 interface NewPostProps {
   nickname: string;
   avatar: string;
+  writePost: (post: Post) => void;
 }
 
-const NewPost: FC<NewPostProps> = ({nickname, avatar}) => {
-  const [value, setValue] = useState('');
+const NewPost: FC<NewPostProps> = ({nickname, avatar, writePost}) => {
+  const [text, setText] = useState<string>('');
 
-  const handleClear: MouseEventHandler<HTMLButtonElement> = (e) => {
-    e.preventDefault();
-    setValue('');
+  const confirmPostCreation: MouseEventHandler<HTMLButtonElement> = () => {
+    writePost({
+      value: text,
+      timestamp: new Date()
+    })
+    setText("")
   };
-  const handleChange: ChangeEventHandler<HTMLTextAreaElement> = (e) => setValue(e.target.value);
+  const handleChange: ChangeEventHandler<HTMLTextAreaElement> = (e) => setText(e.target.value);
   return (
     <div className={styles.newPostContainer}>
       <div className={styles.buttonsCreatePost}>
-        <button className={styles.sendNewPostButton} onClick={handleClear}>
+        <button className={styles.sendNewPostButton} onClick={confirmPostCreation}>
           <div>
             <FaPlus />
           </div>
@@ -37,14 +42,13 @@ const NewPost: FC<NewPostProps> = ({nickname, avatar}) => {
         </div>
 
         <textarea
-          value={value}
+          value={text}
           onChange={handleChange}
           className={styles.newPostInput}
           placeholder='Enter your post'
           cols={10}
         ></textarea>
       </div>
-      {/* <button className={styles.btnAddPost}>Add post</button> */}
     </div>
   );
 };

@@ -4,11 +4,11 @@ import {UserStatus} from "../../types/UserStatus.ts";
 import {Avatar, Badge, styled} from "@mui/material";
 import ProfileHeaderButtons from "../ProfileHeaderButtons/ProfileHeaderButtons.tsx";
 interface ProfileHeaderProps {
-  avatar?: string;
-  nickname?: string;
+  avatar: string;
+  nickname: string;
   username: string;
-  pageCover?: string;
-  status?: UserStatus;
+  pageCover: string;
+  status: UserStatus;
   isOtherUserProfile: boolean;
   isThisUserFriend: boolean;
   isSubscribed: boolean;
@@ -58,6 +58,8 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
         </div>
         <ProfileHeaderButtons
             username={username}
+            nickname={nickname}
+            userStatus={status}
             isOtherUserProfile={isOtherUserProfile}
             isFriend={isThisUserFriend}
             isSubscribed={isSubscribed}
