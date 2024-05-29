@@ -1,15 +1,19 @@
 package com.messenger.api.service;
 
 import com.messenger.api.model.DTO.MessageDTO;
+import com.messenger.api.model.DTO.PostDto;
 import com.messenger.api.model.DTO.UserDataDTO;
+import com.messenger.api.model.Post;
 import com.messenger.api.model.User;
 import com.messenger.api.model.User.Status;
+import com.messenger.api.repository.PostRepository;
 import com.messenger.api.repository.UserRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,6 +21,7 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PostRepository postRepository;
 
     public void connectUser(String username) {
         User storedUser = getByUsername(username);
@@ -101,7 +106,32 @@ public class UserService {
         return new UserDataDTO(getByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
     }
 
-    UserService(UserRepository userRepository){
+    public List<Post> getPosts(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found")).getPosts().stream().toList();
+    }
+
+    public MessageDTO createPost(PostDto postData){
+        if(postData.getValue().isEmpty()){
+            throw new RuntimeException("Post value cannot be empty");
+        }
+
+        User user = getByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        Post post = new Post(user, postData.getValue(), postData.getTimestamp());
+        post = postRepository.save(post);
+        user.getPosts().add(post);
+        userRepository.save(user);
+
+        return new MessageDTO("Post created");
+    }
+
+    public List<UserDataDTO> findByNickname(String nickname){
+        List<User> users = userRepository.getUsersByNick(nickname+"%");
+        return users.stream().map(UserDataDTO::new).collect(Collectors.toList());
+    }
+
+    public UserService(UserRepository userRepository, PostRepository postRepository){
         this.userRepository = userRepository;
+        this.postRepository = postRepository;
     }
 }

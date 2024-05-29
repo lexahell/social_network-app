@@ -41,4 +41,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
             AND s2.subscriber_id IS NULL
             """, nativeQuery = true)
     List<User> getUserSubscribers(@Param("userId") Long userId);
+
+    @Query(value = """
+            SELECT u.*
+            FROM users u
+            WHERE LOWER(u.nickname) LIKE LOWER(:userNick)
+            """, nativeQuery = true)
+    List<User> getUsersByNick(@Param("userNick") String userNick);
 }
