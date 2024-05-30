@@ -9,6 +9,7 @@ import {User} from "../types/User.ts";
 import {useAppDispatch, useAppSelector} from "../hooks/redux.ts";
 import {setIsAuthNotificationShown} from "../store/slices/authSlice.ts";
 import dayjs from "dayjs";
+import {setIsChatSelected} from "../store/slices/chatSlice.ts";
 const DialogsPage : React.FC = () => {
     const {username} = useAppSelector(state => state.authReducer)
     const {data: friends, isLoading} = useGetFriendsQuery({
@@ -21,6 +22,7 @@ const DialogsPage : React.FC = () => {
     const dispatch = useAppDispatch()
     useEffect(() => {
         dispatch(setIsAuthNotificationShown(true))
+        dispatch(setIsChatSelected(false))
     }, []);
     return (
         isLoading

@@ -92,7 +92,9 @@ const ChatsList : React.FC<ChatsListProps> = ({users}) => {
                                         />
                                     ))
                                 }
-                            </> : <span className={styles.emptyChatList}>No users found👻</span>
+                            </> : chatListUsers.length === 0 && debouncedSearchValue === ""
+                                ? <span className={styles.emptyChats}>Add some friends to start chatting!</span>
+                                : <span className={styles.emptyChatList}>No users found👻</span>
                 }
             </div>
         </div>

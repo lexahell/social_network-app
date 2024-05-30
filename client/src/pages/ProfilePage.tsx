@@ -34,8 +34,8 @@ const ProfilePage: React.FC = () => {
     const [relation, setRelation] = useState<string>("")
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [createPost] = useCreatePostMutation()
-    const [getPosts, {data: userPosts, isLoading: isPostsLoading}] = useLazyGetUserPostsQuery()
-    const [checkRelation, {isLoading: isCheckingRelation}] = useLazyCheckRelationQuery()
+    const [getPosts, {data: userPosts}] = useLazyGetUserPostsQuery()
+    const [checkRelation] = useLazyCheckRelationQuery()
 
     const fetchUser = (username: string) => {
         getUserInfo({
