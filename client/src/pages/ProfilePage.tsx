@@ -135,7 +135,7 @@ const ProfilePage: React.FC = () => {
                       isSubscribed={isSubscribed || relation === "Subscribed" || relation === "Friends"}
                   />
                   {
-                      !isOtherUserProfile && <div className={styles.posts}>
+                      !isOtherUserProfile ? <div className={styles.posts}>
                           <NewPost
                               nickname={nickname}
                               avatar={'/broken-image.jpg'}
@@ -151,6 +151,13 @@ const ProfilePage: React.FC = () => {
                               </>
                           }
                       </div>
+                          : <div className={styles.otherUserPosts}>
+                            <h2>{`${profileNickname} posts`}</h2>
+                            <Posts
+                                isOtherUserPosts={true}
+                                posts={posts}
+                            />
+                          </div>
                   }
               </div>
           </Layout>
