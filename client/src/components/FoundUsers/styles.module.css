@@ -4,9 +4,19 @@
     gap: 10px;
     width: 50%;
     flex-direction: column;
+    color: #fff;
 }
 
 .title {
     margin: 0 auto;
     font-size: 30px;
+}
+
+.loading {
+    margin: 0 auto;
+}
+
+.emptySearchList {
+    margin: 0 auto;
+    font-size: 25px;
 }

@@ -7,6 +7,7 @@ import {Message} from "../types/Message.ts";
 import {FriendsDTO} from "../types/FriendsDTO.ts";
 import {Token} from "../types/Token.ts";
 import {Post} from "../types/Post.ts";
+import {RelationMessage} from "../types/RelationMessage.ts";
 
 export const socialAppApi = createApi({
     reducerPath: "socialAppApi",
@@ -147,7 +148,16 @@ export const socialAppApi = createApi({
             query: (dto: Pick<User, "nickname"> & Token)=> ({
                 url: `api/v1/user/nick/${dto.nickname}`,
                 method: "GET",
-                header: {
+                headers: {
+                    'Authorization': `Bearer ${dto.token}`
+                }
+            })
+        }),
+        checkRelation: builder.query<RelationMessage, Pick<User, "username"> & Token>({
+            query: (dto: Pick<User, "username"> & Token) => ({
+                url: `api/v1/user/relations/${dto.username}`,
+                method: "GET",
+                headers: {
                     'Authorization': `Bearer ${dto.token}`
                 }
             })
@@ -164,9 +174,9 @@ export const {
     useGetSubscriptionsQuery,
     useGetFriendsQuery,
     useGetUserInfoQuery,
-    useGetAllUsersQuery,
     useGetChatHistoryQuery,
     useLazyGetUserInfoByUsernameQuery,
     useLazyGetUserPostsQuery,
-    useLazySearchUsersByNicknameQuery
+    useLazySearchUsersByNicknameQuery,
+    useLazyCheckRelationQuery
 } = socialAppApi

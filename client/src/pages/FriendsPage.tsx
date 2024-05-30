@@ -4,7 +4,6 @@ import styles from '../pagesStyles/FriendsPage.module.css';
 import Friends from '../components/Friends/Friends.tsx';
 import Search from '../components/UI/Search/Search.tsx';
 import {
-    useGetAllUsersQuery,
     useGetFriendsQuery,
     useGetSubscribersQuery,
     useGetSubscriptionsQuery, useLazySearchUsersByNicknameQuery
@@ -51,15 +50,8 @@ const FriendsPage: React.FC = () => {
         skip: !localStorage.getItem("token")
     })
 
-    const [searchUsers, {data: searchedUsers}] = useLazySearchUsersByNicknameQuery()
+    const [searchUsers, {isFetching: isSearching}] = useLazySearchUsersByNicknameQuery()
 
-    const {data: allUsers, isFetching: isAllUsersLoading} = useGetAllUsersQuery(localStorage.getItem("token") ?? "", {
-        skip: !localStorage.getItem("token")
-    })
-
-    const filterAllUsers = (searchValue: string): User[] => {
-        return (allUsers as User[]).filter((user) => user.nickname.startsWith(searchValue) && user.username !== username)
-    }
 
     const handleInput = (e: FormEvent<HTMLInputElement>) => {
         setSearchValue(e.currentTarget.value)
@@ -78,11 +70,17 @@ const FriendsPage: React.FC = () => {
     }, [subscriptions])
 
 
-    const fetchUsersByNickname = (search: string) => {
-        searchUsers({
+    const filterFoundUsers = (searchedUsers: User[]): User[] => {
+        return searchedUsers.filter((user) => user.username !== username)
+    }
+
+
+    const fetchUsersByNickname = async (search: string) => {
+        const users: User[] = await searchUsers({
             nickname: search,
             token: localStorage.getItem("token") ?? ""
-        })
+        }).unwrap()
+        setFoundUsers(filterFoundUsers(users))
     }
 
     useEffect(() => {
@@ -110,12 +108,9 @@ const FriendsPage: React.FC = () => {
         if (debouncedSearchValue.trim() === "") {
             setFoundUsers([])
         } else {
-            setFoundUsers(filterAllUsers(debouncedSearchValue))
+            fetchUsersByNickname(debouncedSearchValue)
         }
     }, [debouncedSearchValue]);
-
-
-
 
   return (
         isLoading
@@ -132,12 +127,13 @@ const FriendsPage: React.FC = () => {
                     isFriendsListEmpty && <span className={styles.emptyList}>You have no friends yet 🤪</span>
                 }
                 {
-                    foundUsers.length !== 0
+                    debouncedSearchValue !== ""
                         ? <FoundUsers
                             foundUsers={foundUsers}
                             isFriend={isFriend}
                             isSubscriber={isSubscriber}
                             isSubscribed={isSubscribed}
+                            isLoading={isSearching}
                         />
                         : <div className={styles.userTypes}>
                             <Friends

@@ -19,7 +19,17 @@
     background: transparent;
     overflow-y: scroll;
     max-height: calc(100vh - 120px - 11.5rem);
+    color: #fff;
 }
 .usersCards::-webkit-scrollbar {
     width: 0;
+}
+
+.loading {
+    margin: 0 auto;
+}
+
+.emptyChatList {
+    font-size: 20px;
+    margin:  0 auto;
 }

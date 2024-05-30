@@ -8,10 +8,12 @@ import Loader from "../components/UI/Loader/Loader.tsx";
 import {User} from "../types/User.ts";
 import {useAppDispatch, useAppSelector} from "../hooks/redux.ts";
 import {setIsAuthNotificationShown} from "../store/slices/authSlice.ts";
+import dayjs from "dayjs";
 const DialogsPage : React.FC = () => {
     const {username} = useAppSelector(state => state.authReducer)
     const {data: friends, isLoading} = useGetFriendsQuery({
         username,
+        date: dayjs().unix(),
         token: localStorage.getItem("token") ?? ""
     }, {
         skip: !localStorage.getItem("token")
