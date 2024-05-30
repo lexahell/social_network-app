@@ -54,6 +54,7 @@ const FriendsPage: React.FC = () => {
 
 
     const handleInput = (e: FormEvent<HTMLInputElement>) => {
+        e.preventDefault()
         setSearchValue(e.currentTarget.value)
     }
 

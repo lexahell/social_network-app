@@ -53,6 +53,7 @@ const ChatsList : React.FC<ChatsListProps> = ({users}) => {
     }
 
     const handleInput = (e: FormEvent<HTMLInputElement>) => {
+        e.preventDefault()
         setSearchValue(e.currentTarget.value)
     }
 
