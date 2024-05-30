@@ -22,8 +22,12 @@ public class UserController {
 
     @PostMapping("/post")
     public ResponseEntity<MessageDTO> createPost(@RequestBody PostDto postData) {
-
         return ResponseEntity.ok(userService.createPost(postData));
+    }
+
+    @GetMapping("/relations/{username}")
+    public ResponseEntity<MessageDTO> checkRelations(@PathVariable String username) {
+        return ResponseEntity.ok(userService.checkRelations(username));
     }
 
     @PostMapping("/subscribe/{username}")

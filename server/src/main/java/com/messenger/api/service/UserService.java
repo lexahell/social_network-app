@@ -13,7 +13,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -123,6 +122,24 @@ public class UserService {
         userRepository.save(user);
 
         return new MessageDTO("Post created");
+    }
+
+    public MessageDTO checkRelations(String username){
+        User self = getByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
+        if (self.getSubscriptions().contains(user)){
+            if (user.getSubscriptions().contains(self)){
+                return new MessageDTO("Friends");
+            }else {
+                return new MessageDTO("Subscribed");
+            }
+        }else{
+            if (user.getSubscriptions().contains(self)){
+                return new MessageDTO("Subscriber");
+            }else {
+                return new MessageDTO("None");
+            }
+        }
     }
 
     public List<UserDataDTO> findByNickname(String nickname){
