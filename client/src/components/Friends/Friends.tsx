@@ -4,11 +4,8 @@ import {User} from "../../types/User.ts";
 import UserCard from "../UserCard/UserCard.tsx";
 interface FriendsProps {
   friends: User[] | undefined;
-  isFriend: (user: User) => boolean;
-  isSubscriber: (user: User) => boolean;
-  isSubscribed: (username: string) => boolean;
 }
-const Friends: React.FC<FriendsProps> = ({ friends, isFriend, isSubscriber, isSubscribed }) => {
+const Friends: React.FC<FriendsProps> = ({ friends }) => {
 
   if (friends === undefined || friends.length === 0) {
     return null
@@ -20,9 +17,6 @@ const Friends: React.FC<FriendsProps> = ({ friends, isFriend, isSubscriber, isSu
         {friends.map((user) => (
             <UserCard
                 user={user}
-                isFriend={isFriend}
-                isSubscriber={isSubscriber}
-                isSubscribed={isSubscribed}
                 key={user.username}
             />
         ))}

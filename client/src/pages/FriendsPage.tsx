@@ -1,4 +1,4 @@
-import React, {FormEvent, useCallback, useEffect, useState} from 'react';
+import React, {FormEvent, useEffect, useState} from 'react';
 import Layout from '../components/Layout/Layout.tsx';
 import styles from '../pagesStyles/FriendsPage.module.css';
 import Friends from '../components/Friends/Friends.tsx';
@@ -56,19 +56,6 @@ const FriendsPage: React.FC = () => {
     const handleInput = (e: FormEvent<HTMLInputElement>) => {
         setSearchValue(e.currentTarget.value)
     }
-
-    const isFriend = useCallback((user: User): boolean => {
-        return (friends as User[]).find((friend) => friend.username === user.username) !== undefined
-    }, [friends])
-
-    const isSubscriber = useCallback((user: User): boolean => {
-        return (subscribers as User[]).find((subscriber) => subscriber.username === user.username) !== undefined
-    }, [subscribers])
-
-    const isSubscribed = useCallback((username: string): boolean => {
-        return (subscriptions as User[]).find((subscription) => subscription.username === username) !== undefined
-    }, [subscriptions])
-
 
     const filterFoundUsers = (searchedUsers: User[]): User[] => {
         return searchedUsers.filter((user) => user.username !== username)
@@ -130,29 +117,17 @@ const FriendsPage: React.FC = () => {
                     debouncedSearchValue !== ""
                         ? <FoundUsers
                             foundUsers={foundUsers}
-                            isFriend={isFriend}
-                            isSubscriber={isSubscriber}
-                            isSubscribed={isSubscribed}
                             isLoading={isSearching}
                         />
                         : <div className={styles.userTypes}>
                             <Friends
                                 friends={friends}
-                                isFriend={isFriend}
-                                isSubscriber={isSubscriber}
-                                isSubscribed={isSubscribed}
                             />
                             <Subscriptions
                                 subscriptions={subscriptions}
-                                isFriend={isFriend}
-                                isSubscriber={isSubscriber}
-                                isSubscribed={isSubscribed}
                             />
                             <Subscribers
                                 subscribers={subscribers}
-                                isFriend={isFriend}
-                                isSubscriber={isSubscriber}
-                                isSubscribed={isSubscribed}
                             />
                         </div>
                 }

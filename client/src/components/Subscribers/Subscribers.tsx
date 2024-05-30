@@ -5,12 +5,9 @@ import UserCard from "../UserCard/UserCard.tsx";
 
 interface SubscribersProps {
     subscribers: User[] | undefined;
-    isFriend: (user: User) => boolean;
-    isSubscriber: (user: User) => boolean;
-    isSubscribed: (username: string) => boolean;
 }
 
-const Subscribers: FC<SubscribersProps> = ({subscribers, isFriend, isSubscriber, isSubscribed}) => {
+const Subscribers: FC<SubscribersProps> = ({subscribers}) => {
 
     if (subscribers === undefined || subscribers.length === 0) {
         return null
@@ -22,9 +19,6 @@ const Subscribers: FC<SubscribersProps> = ({subscribers, isFriend, isSubscriber,
             {subscribers.map((user) => (
                 <UserCard
                     user={user}
-                    isFriend={isFriend}
-                    isSubscriber={isSubscriber}
-                    isSubscribed={isSubscribed}
                     key={user.username}
                 />
             ))}

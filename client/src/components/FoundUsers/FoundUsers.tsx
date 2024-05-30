@@ -7,12 +7,9 @@ import {CircularProgress} from "@mui/material";
 interface FoundUsersProps {
     foundUsers: User[];
     isLoading: boolean;
-    isFriend: (user: User) => boolean;
-    isSubscriber: (user: User) => boolean;
-    isSubscribed: (username: string) => boolean;
 }
 
-const FoundUsers: FC<FoundUsersProps> = ({foundUsers, isFriend, isSubscriber, isSubscribed, isLoading}) => {
+const FoundUsers: FC<FoundUsersProps> = ({foundUsers,isLoading}) => {
     return (
         <div className={styles.foundUsers}>
             <h2 className={styles.title}>Found users</h2>
@@ -23,9 +20,6 @@ const FoundUsers: FC<FoundUsersProps> = ({foundUsers, isFriend, isSubscriber, is
                         {foundUsers.map((user)  => (
                             <UserCard
                                 user={user}
-                                isFriend={isFriend}
-                                isSubscriber={isSubscriber}
-                                isSubscribed={isSubscribed}
                                 key={user.username}
                             />
                         ))}

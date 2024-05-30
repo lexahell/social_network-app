@@ -16,6 +16,7 @@ import {UserStatus} from "../../types/UserStatus.ts";
 import {useNavigate} from "react-router-dom";
 import dayjs from "dayjs";
 import {setExecTime} from "../../store/slices/friendsSlice.ts";
+import {setIsThisUserFriend} from "../../store/slices/profileSlice.ts";
 
 
 interface ProfileHeaderButtonsProps {
@@ -32,7 +33,7 @@ const ProfileHeaderButtons: FC<ProfileHeaderButtonsProps> = ({username, isOtherU
     const navigate = useNavigate()
     const [subscribe, {isLoading: isSubscriptionLoading}] = useSubscribeMutation()
     const [unsubscribe, {isLoading: isUnsubscriptionLoading}] = useUnsubscribeMutation()
-    const [isUserSubscribed, setIsUserSubscribed] = useState<boolean>(isSubscribed || isFriend)
+    const [isUserSubscribed, setIsUserSubscribed] = useState<boolean>(isSubscribed)
     const confirmClick = async () => {
         if (isSubscribed || isFriend) {
             await unsubscribe({
@@ -40,6 +41,7 @@ const ProfileHeaderButtons: FC<ProfileHeaderButtonsProps> = ({username, isOtherU
                 date: dayjs().unix(),
                 token: localStorage.getItem("token") ?? ""
             })
+            dispatch(setIsThisUserFriend(false))
         } else {
             await subscribe({
                 username,
@@ -47,6 +49,7 @@ const ProfileHeaderButtons: FC<ProfileHeaderButtonsProps> = ({username, isOtherU
                 token: localStorage.getItem("token") ?? ""
             })
         }
+        dispatch(setIsThisUserFriend(true))
 
         setIsUserSubscribed(!isUserSubscribed)
         dispatch(setExecTime(dayjs().unix()))
@@ -69,7 +72,6 @@ const ProfileHeaderButtons: FC<ProfileHeaderButtonsProps> = ({username, isOtherU
         )
     }
 
-
     return (
         <div className={styles.profileButtons}>
             <button className={styles.subscribeButton} onClick={confirmClick} disabled={isSubscriptionLoading || isUnsubscriptionLoading}>
@@ -80,7 +82,7 @@ const ProfileHeaderButtons: FC<ProfileHeaderButtonsProps> = ({username, isOtherU
                 }
             </button>
             {
-                isFriend && <button className={styles.squareButton} onClick={redirectToChat}>
+                isFriend && isUserSubscribed && <button className={styles.squareButton} onClick={redirectToChat}>
                     <BiMessageDetail/>
                 </button>
             }

@@ -5,7 +5,6 @@ import {
     setIsOtherUserProfile,
     setIsSubscribed,
     setIsThisUserFriend,
-    setIsThisUserSubscriber,
     setProfileNickname,
     setProfileUsername,
     setUserStatus
@@ -13,10 +12,10 @@ import {
 import {RouteNames} from "../../router/routes.tsx";
 import {Avatar, Badge, CircularProgress, styled} from "@mui/material";
 import {User} from "../../types/User.ts";
-import {FC} from "react";
+import {FC, useEffect, useState} from "react";
 import {BiMessageDetail} from "react-icons/bi";
 import {UserStatus} from "../../types/UserStatus.ts";
-import {useSubscribeMutation} from "../../services/socialAppService.ts";
+import {useLazyCheckRelationQuery, useSubscribeMutation} from "../../services/socialAppService.ts";
 import {
     setIsChatSelected,
     setRecipientAvatar,
@@ -38,15 +37,27 @@ const StyledBadge = styled(Badge)(() => ({
 
 interface UserCardProps {
     user: User;
-    isFriend: (user: User) => boolean;
-    isSubscriber: (user: User) => boolean;
-    isSubscribed: (username: string) => boolean;
 }
 
-const UserCard: FC<UserCardProps> = ({user, isFriend, isSubscriber, isSubscribed}) => {
+const UserCard: FC<UserCardProps> = ({user}) => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     const [subscribe, {isLoading: isSubscriptionLoading}] = useSubscribeMutation()
+    const [checkRelation] = useLazyCheckRelationQuery()
+    const [relation, setRelation] = useState<string>("")
+
+    useEffect(() => {
+        getRelations(user.username)
+    }, [])
+
+    const getRelations = async (username: string) => {
+        const relation = await checkRelation({
+            username,
+            token: localStorage.getItem("token") ?? ""
+        }).unwrap()
+
+        setRelation(relation.message)
+    }
 
     const confirmClick = async () => {
         await subscribe({
@@ -62,9 +73,8 @@ const UserCard: FC<UserCardProps> = ({user, isFriend, isSubscriber, isSubscribed
         dispatch(setProfileNickname(nickname))
         dispatch(setUserStatus(user.status))
         dispatch(setIsOtherUserProfile(true))
-        dispatch(setIsThisUserFriend(isFriend(user)))
-        dispatch(setIsThisUserSubscriber(isSubscriber(user)))
-        dispatch(setIsSubscribed(isSubscribed(user.username)))
+        dispatch(setIsThisUserFriend(relation === "Friends"))
+        dispatch(setIsSubscribed(relation === "Subscribed" || relation === "Friends"))
         navigate(`${RouteNames.PROFILE}/${username}`)
     }
 
@@ -105,7 +115,7 @@ const UserCard: FC<UserCardProps> = ({user, isFriend, isSubscriber, isSubscribed
                     View profile
                 </button>
                 {
-                    isSubscriber(user) && <button className={styles.friendRequestButton} onClick={confirmClick}>
+                    relation === "Subscriber" && <button className={styles.friendRequestButton} onClick={confirmClick}>
                         {
                             isSubscriptionLoading
                                 ? <CircularProgress size={25} color={"inherit"}/>
@@ -114,7 +124,7 @@ const UserCard: FC<UserCardProps> = ({user, isFriend, isSubscriber, isSubscribed
                     </button>
                 }
                 {
-                    isFriend(user) && <button className={styles.messageButton} onClick={redirectToChat}>
+                    relation === "Friends" && <button className={styles.messageButton} onClick={redirectToChat}>
                         <BiMessageDetail/>
                     </button>
                 }

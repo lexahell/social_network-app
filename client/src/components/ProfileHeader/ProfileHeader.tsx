@@ -32,6 +32,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
     isThisUserFriend,
     isSubscribed
 }) => {
+
   return (
     <div className={styles.profileHeader}>
       <div className={styles.coverContainer}>

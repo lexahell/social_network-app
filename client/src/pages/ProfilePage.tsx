@@ -14,7 +14,7 @@ import {
 } from "../store/slices/profileSlice.ts";
 import {setIsAuthNotificationShown} from "../store/slices/authSlice.ts";
 import {
-    useCreatePostMutation,
+    useCreatePostMutation, useLazyCheckRelationQuery,
     useLazyGetUserInfoByUsernameQuery,
     useLazyGetUserPostsQuery
 } from "../services/socialAppService.ts";
@@ -22,6 +22,7 @@ import {Post} from "../types/Post.ts";
 import Loader from "../components/UI/Loader/Loader.tsx";
 import Posts from "../components/Posts/Posts.tsx";
 import dayjs from "dayjs";
+import {User} from "../types/User.ts";
 
 const ProfilePage: React.FC = () => {
     const location = useLocation()
@@ -30,8 +31,11 @@ const ProfilePage: React.FC = () => {
     const {nickname, username} = useAppSelector(state => state.authReducer)
     const {profileNickname, isOtherUserProfile, isThisUserFriend, userStatus, isSubscribed, profileUsername} = useAppSelector(state => state.profileReducer)
     const [posts, setPosts] = useState<Post[]>([])
-    const [createPost, {}] = useCreatePostMutation()
-    const [getPosts, {data: userPosts, isLoading}] = useLazyGetUserPostsQuery()
+    const [relation, setRelation] = useState<string>("")
+    const [isLoading, setIsLoading] = useState<boolean>(true)
+    const [createPost] = useCreatePostMutation()
+    const [getPosts, {data: userPosts, isLoading: isPostsLoading}] = useLazyGetUserPostsQuery()
+    const [checkRelation, {isLoading: isCheckingRelation}] = useLazyCheckRelationQuery()
 
     const fetchUser = (username: string) => {
         getUserInfo({
@@ -39,6 +43,23 @@ const ProfilePage: React.FC = () => {
             token: localStorage.getItem("token") ?? ""
         })
     }
+
+    const getRelations = async (username: string)=> {
+        const relation = await checkRelation({
+            username,
+            token: localStorage.getItem("token") ?? ""
+        }).unwrap()
+
+        setRelation(relation.message)
+        setIsLoading(false)
+    }
+
+    const setProfileInfo = async (user: User) => {
+        dispatch(setProfileUsername(user.username))
+        dispatch(setProfileNickname(user.nickname))
+        dispatch(setUserStatus(user.status))
+    }
+
 
     const setLastVisitedPage = (path: string) => {
         localStorage.setItem("lastVisitedPage", path)
@@ -60,7 +81,10 @@ const ProfilePage: React.FC = () => {
         if (location.pathname.split("/")[2] === username) {
             dispatch(setProfileUsername(username))
             dispatch(setProfileNickname(nickname))
+            setIsLoading(false)
         } else {
+            dispatch(setIsOtherUserProfile(true))
+            getRelations(decodeURIComponent(location.pathname.split("/")[2]))
             fetchUser(decodeURIComponent(location.pathname.split("/")[2]))
         }
         setLastVisitedPage(location.pathname)
@@ -76,10 +100,7 @@ const ProfilePage: React.FC = () => {
 
     useEffect(() => {
         if (user) {
-            dispatch(setProfileUsername(user.username))
-            dispatch(setProfileNickname(user.nickname))
-            dispatch(setUserStatus(user.status))
-            dispatch(setIsOtherUserProfile(true))
+            setProfileInfo(user)
         }
     }, [user])
 
@@ -95,6 +116,7 @@ const ProfilePage: React.FC = () => {
         }
     }, [userPosts]);
 
+
   return (
       isLoading
         ? <Loader size={55}/>
@@ -109,8 +131,8 @@ const ProfilePage: React.FC = () => {
                       status={userStatus}
                       pageCover={pageCover}
                       isOtherUserProfile={isOtherUserProfile}
-                      isThisUserFriend={isThisUserFriend}
-                      isSubscribed={isSubscribed}
+                      isThisUserFriend={isThisUserFriend || relation === "Friends"}
+                      isSubscribed={isSubscribed || relation === "Subscribed" || relation === "Friends"}
                   />
                   {
                       !isOtherUserProfile && <div className={styles.posts}>
