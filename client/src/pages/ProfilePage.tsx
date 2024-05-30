@@ -151,12 +151,14 @@ const ProfilePage: React.FC = () => {
                               </>
                           }
                       </div>
-                          : <div className={styles.otherUserPosts}>
-                            <h2>{`${profileNickname} posts`}</h2>
-                            <Posts
-                                isOtherUserPosts={true}
-                                posts={posts}
-                            />
+                          :  <div className={styles.otherUserPosts}>
+                              {
+                                  posts.length !== 0 && <h2>{`${profileNickname} posts`}</h2>
+                              }
+                              <Posts
+                                    isOtherUserPosts={true}
+                                    posts={posts}
+                                />
                           </div>
                   }
               </div>
