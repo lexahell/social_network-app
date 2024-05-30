@@ -6,7 +6,7 @@ import {useAppDispatch, useAppSelector} from "../hooks/redux.ts";
 import {
     useGetFriendsQuery,
     useGetSubscriptionsQuery,
-    useLazyGetUserInfoByUsernameQuery, useLazyGetUserPostsQuery
+    useLazyGetUserPostsQuery
 } from "../services/socialAppService.ts";
 import Loader from "../components/UI/Loader/Loader.tsx";
 import {Post} from "../types/Post.ts";
@@ -20,6 +20,7 @@ const HomePage: React.FC = () => {
     const {username} = useAppSelector(state => state.authReducer)
     const {data: friends} = useGetFriendsQuery({
         username,
+        date: dayjs().unix(),
         token: localStorage.getItem("token") ?? ""
     }, {
         skip: !localStorage.getItem("token")
@@ -27,6 +28,7 @@ const HomePage: React.FC = () => {
 
     const {data: subscriptions} = useGetSubscriptionsQuery({
         username,
+        date: dayjs().unix(),
         token: localStorage.getItem("token") ?? ""
     }, {
         skip: !localStorage.getItem("token")
@@ -43,7 +45,7 @@ const HomePage: React.FC = () => {
                 token: localStorage.getItem("token") ?? ""
             }).unwrap()).map(post => ({
                 ...post,
-                author: friends[i].username
+                author: friends[i].nickname
             }));
 
             allPosts.push(...userPosts)
@@ -55,7 +57,7 @@ const HomePage: React.FC = () => {
                 token: localStorage.getItem("token") ?? ""
             }).unwrap()).map(post => ({
                 ...post,
-                author: subscriptions[i].username
+                author: subscriptions[i].nickname
             }));
 
             allPosts.push(...userPosts)

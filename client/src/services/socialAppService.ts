@@ -142,6 +142,15 @@ export const socialAppApi = createApi({
                     'Authorization': `Bearer ${dto.token}`
                 }
             })
+        }),
+        searchUsersByNickname: builder.query<User[], Pick<User, "nickname"> & Token>({
+            query: (dto: Pick<User, "nickname"> & Token)=> ({
+                url: `api/v1/user/nick/${dto.nickname}`,
+                method: "GET",
+                header: {
+                    'Authorization': `Bearer ${dto.token}`
+                }
+            })
         })
     })
 })
@@ -158,5 +167,6 @@ export const {
     useGetAllUsersQuery,
     useGetChatHistoryQuery,
     useLazyGetUserInfoByUsernameQuery,
-    useLazyGetUserPostsQuery
+    useLazyGetUserPostsQuery,
+    useLazySearchUsersByNicknameQuery
 } = socialAppApi

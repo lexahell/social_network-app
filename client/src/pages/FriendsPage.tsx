@@ -7,7 +7,7 @@ import {
     useGetAllUsersQuery,
     useGetFriendsQuery,
     useGetSubscribersQuery,
-    useGetSubscriptionsQuery
+    useGetSubscriptionsQuery, useLazySearchUsersByNicknameQuery
 } from "../services/socialAppService.ts";
 import {useAppDispatch, useAppSelector} from "../hooks/redux.ts";
 import Loader from "../components/UI/Loader/Loader.tsx";
@@ -21,33 +21,39 @@ import Subscribers from "../components/Subscribers/Subscribers.tsx";
 const FriendsPage: React.FC = () => {
     const dispatch = useAppDispatch()
     const {username} = useAppSelector(state => state.authReducer)
+    const {execTime} = useAppSelector(state => state.friendsReducer)
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [isFriendsListEmpty, setIsFriendsLisEmpty] = useState<boolean>(false)
     const [searchValue, setSearchValue] = useState<string>("")
     const [foundUsers, setFoundUsers] = useState<User[]>([])
     const debouncedSearchValue = useDebounce<string>(searchValue, 500)
-    const {data: friends, isLoading: isFriendsLoading} = useGetFriendsQuery({
+    const {data: friends, isFetching: isFriendsLoading} = useGetFriendsQuery({
         username,
+        date: execTime,
         token: localStorage.getItem("token") ?? ""
     }, {
         skip: !localStorage.getItem("token")
     })
 
-    const {data: subscriptions, isLoading: isSubscriptionsLoading} = useGetSubscriptionsQuery({
+    const {data: subscriptions, isFetching: isSubscriptionsLoading} = useGetSubscriptionsQuery({
         username,
+        date: execTime,
         token: localStorage.getItem("token") ?? ""
     }, {
         skip: !localStorage.getItem("token")
     })
 
-    const {data: subscribers, isLoading: isSubscribersLoading} = useGetSubscribersQuery({
+    const {data: subscribers, isFetching: isSubscribersLoading} = useGetSubscribersQuery({
         username,
+        date: execTime,
         token: localStorage.getItem("token") ?? ""
     }, {
         skip: !localStorage.getItem("token")
     })
 
-    const {data: allUsers, isLoading: isAllUsersLoading} = useGetAllUsersQuery(localStorage.getItem("token") ?? "", {
+    const [searchUsers, {data: searchedUsers}] = useLazySearchUsersByNicknameQuery()
+
+    const {data: allUsers, isFetching: isAllUsersLoading} = useGetAllUsersQuery(localStorage.getItem("token") ?? "", {
         skip: !localStorage.getItem("token")
     })
 
@@ -71,16 +77,24 @@ const FriendsPage: React.FC = () => {
         return (subscriptions as User[]).find((subscription) => subscription.username === username) !== undefined
     }, [subscriptions])
 
+
+    const fetchUsersByNickname = (search: string) => {
+        searchUsers({
+            nickname: search,
+            token: localStorage.getItem("token") ?? ""
+        })
+    }
+
     useEffect(() => {
         dispatch(setIsAuthNotificationShown(true))
     }, []);
 
 
     useEffect(() => {
-        if (!isFriendsLoading && !isSubscriptionsLoading && !isSubscribersLoading && !isAllUsersLoading) {
+        if (!isFriendsLoading && !isSubscriptionsLoading && !isSubscribersLoading) {
             setIsLoading(false)
         }
-    }, [isFriendsLoading, isSubscribersLoading, isSubscriptionsLoading, isAllUsersLoading]);
+    }, [isFriendsLoading, isSubscribersLoading, isSubscriptionsLoading]);
 
     useEffect(() => {
         if (friends === undefined && subscribers === undefined && subscriptions === undefined && foundUsers.length === 0) {
@@ -99,6 +113,8 @@ const FriendsPage: React.FC = () => {
             setFoundUsers(filterAllUsers(debouncedSearchValue))
         }
     }, [debouncedSearchValue]);
+
+
 
 
   return (

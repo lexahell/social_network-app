@@ -14,6 +14,8 @@ import {RouteNames} from "../../router/routes.tsx";
 import {useAppDispatch} from "../../hooks/redux.ts";
 import {UserStatus} from "../../types/UserStatus.ts";
 import {useNavigate} from "react-router-dom";
+import dayjs from "dayjs";
+import {setExecTime} from "../../store/slices/friendsSlice.ts";
 
 
 interface ProfileHeaderButtonsProps {
@@ -35,16 +37,19 @@ const ProfileHeaderButtons: FC<ProfileHeaderButtonsProps> = ({username, isOtherU
         if (isSubscribed || isFriend) {
             await unsubscribe({
                 username,
+                date: dayjs().unix(),
                 token: localStorage.getItem("token") ?? ""
             })
         } else {
             await subscribe({
                 username,
+                date: dayjs().unix(),
                 token: localStorage.getItem("token") ?? ""
             })
         }
 
         setIsUserSubscribed(!isUserSubscribed)
+        dispatch(setExecTime(dayjs().unix()))
     }
 
     const redirectToChat = () => {

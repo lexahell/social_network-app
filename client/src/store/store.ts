@@ -4,6 +4,7 @@ import chatReducer from "./slices/chatSlice.ts";
 import messagesReducer from "./slices/messageSlice.ts"
 import authReducer from "./slices/authSlice.ts";
 import profileReducer from "./slices/profileSlice.ts"
+import friendsReducer from "./slices/friendsSlice.ts"
 import {socialAppApi} from "../services/socialAppService.ts";
 import {setupListeners} from "@reduxjs/toolkit/query";
 const rootReducer = combineReducers({
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
     messagesReducer,
     authReducer,
     profileReducer,
+    friendsReducer,
     [socialAppApi.reducerPath]: socialAppApi.reducer
 })
 const setupStore = () => {

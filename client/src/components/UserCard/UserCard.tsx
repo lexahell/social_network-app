@@ -24,6 +24,8 @@ import {
     setRecipientStatus,
     setRecipientUsername
 } from "../../store/slices/chatSlice.ts";
+import dayjs from "dayjs";
+import {setExecTime} from "../../store/slices/friendsSlice.ts";
 
 
 const StyledBadge = styled(Badge)(() => ({
@@ -46,11 +48,13 @@ const UserCard: FC<UserCardProps> = ({user, isFriend, isSubscriber, isSubscribed
     const navigate = useNavigate()
     const [subscribe, {isLoading: isSubscriptionLoading}] = useSubscribeMutation()
 
-    const confirmClick = () => {
-        subscribe({
+    const confirmClick = async () => {
+        await subscribe({
             username: user.username,
+            date: dayjs().unix(),
             token: localStorage.getItem("token") ?? ""
         })
+        dispatch(setExecTime(dayjs().unix()))
     }
 
     const redirectToProfile = (username: string, nickname: string) => {
