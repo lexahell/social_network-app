@@ -1,0 +1,9 @@
+com.messenger.api
+com.messenger.api.configuration
+com.messenger.api.configuration.exceptions
+com.messenger.api.configuration.filter
+com.messenger.api.controller
+com.messenger.api.model
+com.messenger.api.model.DTO
+com.messenger.api.repository
+com.messenger.api.service

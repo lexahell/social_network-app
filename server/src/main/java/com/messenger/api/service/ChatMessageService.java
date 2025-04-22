@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Сервис управления сообщениями
+ */
 @Service
 public class ChatMessageService {
     private final ChatMessageRepository chatMessageRepository;
@@ -18,6 +21,10 @@ public class ChatMessageService {
         this.chatRoomService = chatRoomService;
     }
 
+    /**
+     * Сохраняет сообщение пользователя
+     * @param chatMessage  - сообщение
+     */
     public ChatMessage save(ChatMessage chatMessage) {
         String chatId = chatRoomService
                 .getChatRoomId(chatMessage.getSenderUsername(), chatMessage.getRecipientUsername(), true)
@@ -27,6 +34,11 @@ public class ChatMessageService {
         return chatMessage;
     }
 
+    /**
+     * Возвращает список сообщенний
+     * @param senderUsername - ник отправителя
+     * @param recipientUsername - ник получателя
+     */
     public List<ChatMessage> findChatMessages(String senderUsername, String recipientUsername) {
         Optional<String> chatId = chatRoomService.getChatRoomId(senderUsername, recipientUsername, false);
         return chatId.map(chatMessageRepository::findByChatId).orElse(new ArrayList<>());
