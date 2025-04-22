@@ -16,25 +16,39 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Сервис для управления информацией о пользователях
+ */
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
     private final PostRepository postRepository;
 
+    /**
+     * Устанавливает пользователю статус "Онлайн"
+     * @param username - ник пользователя
+     */
     public void connectUser(String username) {
         User storedUser = getByUsername(username);
         storedUser.setStatus(Status.ONLINE);
         userRepository.save(storedUser);
     }
 
+    /**
+     * Устанавливает пользователю статус "Оффлайн"
+     * @param username - ник пользователя
+     */
     public void disconnectUser(String username) {
         User storedUser = getByUsername(username);
         storedUser.setStatus(Status.OFFLINE);
         userRepository.save(storedUser);
     }
 
-
+    /**
+     * Создает пользователя в БД. При попытке создать пользователя с занятым именем выбрасывает RuntimeException
+     * @param user - объект пользователя
+     */
     public User create(User user) {
         if (userRepository.existsByUsername(user.getUsername())) {
             throw new RuntimeException("User exists");
@@ -42,6 +56,10 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    /**
+     * Подписывает вошедшего пользователя  на указанного. Если указан тот же пользователь или уже подписан, то выбрасывает RuntimeException
+     * @param username - ник пользователя, на которого надо подписаться
+     */
     public MessageDTO subscribeTo(String username){
         User self = getByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         if (self.getUsername().equals(username)){
@@ -56,6 +74,10 @@ public class UserService {
         return new MessageDTO("Subscribed to "+username);
     }
 
+    /**
+     * Отписывает вошедшего пользователя  на указанного. Если указан тот же пользователь или уже подписан, то выбрасывает RuntimeException
+     * @param username - ник пользователя, от которого надо отписаться
+     */
     public MessageDTO unsubscribeFrom(String username){
         User self = getByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         if (self.getUsername().equals(username)){
@@ -70,46 +92,80 @@ public class UserService {
         return new MessageDTO("Unsubscribed from "+username);
     }
 
+    /**
+     * Получить подписки пользователя
+     * @param username - ник пользователя
+     */
     public List<UserDataDTO> getSubscriptions(String username){
         List<User> users = userRepository.getUserSubscriptions(userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found")).getId());
         return users.stream().map(UserDataDTO::new).collect(Collectors.toList());
     }
 
+    /**
+     * Польчить друзей пользователя
+     * @param username - ник пользователя
+     */
     public List<UserDataDTO> getFriends(String username){
         List<User> users = userRepository.getUserFriends(userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found")).getId());
         return users.stream().map(UserDataDTO::new).collect(Collectors.toList());
     }
 
+    /**
+     * Получить подписчиков пользователя
+     * @param username - ник пользователя
+     */
     public List<UserDataDTO> getSubscribers(String username){
         List<User> users = userRepository.getUserSubscribers(userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found")).getId());
         return users.stream().map(UserDataDTO::new).collect(Collectors.toList());
     }
 
+    /**
+     * Возвращает пользователя по нику
+     * @param username - ник пользователя
+     */
     public User getByUsername(String username) {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
+    /**
+     * Возвращает список всех пользователей
+     */
     public List<UserDataDTO> getAllUsers() {
         List<User> users = userRepository.findAll();
         return users.stream().map(UserDataDTO::new).collect(Collectors.toList());
     }
+
+    /**
+     * Возвращает реквизиты для входа текущего пользователя
+     */
     public UserDetailsService userDetailsService() {
         return this::getByUsername;
     }
 
+    /**
+     * Возврашает информацию о текущем пользователе
+     */
     public UserDataDTO getMyInfo() {
         return new UserDataDTO(getByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
     }
 
+    /**
+     * Возвращает список постов пользователя
+     * @param username - ник пользователя
+     */
     public List<Post> getPosts(String username) {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found")).getPosts().stream().toList();
     }
 
+    /**
+     * Создаёт пост на на личной странице пользователя
+     * @param postData - информация поста
+     */
     public MessageDTO createPost(PostDto postData){
         if(postData.getValue().isEmpty()){
             throw new RuntimeException("Post value cannot be empty");
@@ -124,6 +180,10 @@ public class UserService {
         return new MessageDTO("Post created");
     }
 
+    /**
+     * Возвращает статус отношений ймежду вошедшим пользователем и указанным
+     * @param username - ник другого пользователя
+     */
     public MessageDTO checkRelations(String username){
         User self = getByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         User user = userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
@@ -142,6 +202,10 @@ public class UserService {
         }
     }
 
+    /**
+     * Находит пользователя по нику
+     * @param nickname - ник пользователя
+     */
     public List<UserDataDTO> findByNickname(String nickname){
         List<User> users = userRepository.getUsersByNick(nickname+"%");
         return users.stream().map(UserDataDTO::new).collect(Collectors.toList());

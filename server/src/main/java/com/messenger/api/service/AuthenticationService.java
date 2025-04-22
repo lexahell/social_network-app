@@ -11,6 +11,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+/**
+ * Сервис аутентификации и авторизации
+ */
 @Service
 public class AuthenticationService {
     private final UserService userService;
@@ -18,6 +21,10 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
 
+    /**
+     * Возвращает JWT-токен для аутентификации/авторизации
+     * @param request - запрос на вход
+     */
     public JwtAuthenticationResponseDTO signUp(SignUpRequestDTO request) {
 
         User user = new User(request.getNickname(),
@@ -31,6 +38,10 @@ public class AuthenticationService {
         return new JwtAuthenticationResponseDTO(jwt);
     }
 
+    /**
+     * Регистрирует пользователя в системе
+     * @param request - запрос на регистрацию
+     */
     public JwtAuthenticationResponseDTO signIn(SignInRequestDTO request) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 request.getUsername(),

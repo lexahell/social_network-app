@@ -11,6 +11,9 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
+/**
+ * Контроллер для статуса пользователей в чатах
+ */
 @Controller
 public class UserTypingController {
     private final SimpMessagingTemplate messagingTemplate;
